@@ -2637,18 +2637,18 @@ class GradeBook {
     if (now < soonFrom) return '';
 
     const fechaVence = expiredAt.toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
-    const waText = encodeURIComponent(`Hola, quiero renovar mi Libro Digital de Notas. Mi código actual es: ${this.state.activationCode}`);
+    const waText = encodeURIComponent(`Hola, mi año de actualizaciones del Libro Digital de Notas está por terminar. Quiero renovarlo. Mi código actual es: ${this.state.activationCode}`);
     const waLink = `https://wa.me/56982857408?text=${waText}`;
 
     if (now > expiredAt) {
       return `<div class="renewal-banner" id="renewal-banner">
-        <span class="renewal-banner-msg">📅 Tu acceso anual venció el ${fechaVence}. Puedes seguir usando la app, pero te recomendamos renovar.</span>
+        <span class="renewal-banner-msg">📅 Tu año de actualizaciones incluido terminó el ${fechaVence}. Tu acceso a la app sigue siendo de por vida — esto es solo si quieres seguir recibiendo las mejoras nuevas.</span>
         <a href="${waLink}" target="_blank" class="renewal-banner-btn">Renovar por WhatsApp</a>
         <button class="renewal-banner-close" data-action="dismiss-renewal-banner" title="Cerrar">×</button>
       </div>`;
     }
     return `<div class="renewal-banner" id="renewal-banner">
-      <span class="renewal-banner-msg">📅 Tu acceso anual vence el ${fechaVence}.</span>
+      <span class="renewal-banner-msg">📅 Tu año de actualizaciones incluido termina el ${fechaVence}. Tu acceso a la app no se ve afectado.</span>
       <a href="${waLink}" target="_blank" class="renewal-banner-btn">Renovar por WhatsApp</a>
       <button class="renewal-banner-close" data-action="dismiss-renewal-banner" title="Cerrar">×</button>
     </div>`;

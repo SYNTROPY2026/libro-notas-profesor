@@ -108,7 +108,7 @@
 
   <header>
     <h1>📒 Panel de Códigos</h1>
-    <p>Libro Digital de Notas · 12 meses desde la activación</p>
+    <p>Libro Digital de Notas · Acceso de por vida · Actualizaciones 1er año</p>
   </header>
 
   <div class="note">
@@ -139,7 +139,7 @@
   </div>
 
   <div class="card">
-    <h2>Próximos a vencer (45 días)</h2>
+    <h2>Año de actualizaciones por vencer (45 días)</h2>
     <div class="deliver-row">
       <button class="btn btn-gen" onclick="verProximosAVencer()">Ver lista →</button>
     </div>
@@ -210,7 +210,7 @@ async function entregarCodigo() {
     msg.className = 'deliver-msg ok';
 
     const texto = encodeURIComponent(
-      `¡Hola ${nombre}! Aquí está tu código de acceso al Libro Digital de Notas:\n\n${codigo}\n\nAbre https://syntropy2026.github.io/libro-notas-profesor/ e ingrésalo para activar tu cuenta.\n\nGuía rápida de inicio (recomendamos leerla antes de partir): https://syntropy2026.github.io/libro-notas-profesor/guia-inicio.html\n\nCualquier duda, escríbeme por este mismo chat 😊`
+      `¡Hola ${nombre}! 🎉 Aquí está tu código de acceso al Libro Digital de Notas:\n\n${codigo}\n\nGuárdalo en un lugar seguro — es personal, así que cuídalo y no lo compartas, pero lo vas a necesitar si alguna vez activas la app desde otro computador o celular.\n\n1️⃣ Abre la app: https://syntropy2026.github.io/libro-notas-profesor/\n2️⃣ Ingresa el código para activarte\n3️⃣ Guía rápida de inicio: https://syntropy2026.github.io/libro-notas-profesor/guia-inicio.html\n\nTus notas se guardan directo en tu navegador, no en ningún servidor. Términos y privacidad: https://syntropy2026.github.io/libro-notas-profesor/terminos.html\n\nCualquier duda, escríbeme por este mismo chat 😊`
     );
     window.open(`https://wa.me/${telefono}?text=${texto}`, '_blank');
 
@@ -268,18 +268,18 @@ async function verProximosAVencer() {
     const { data, error } = await sb.rpc('proximos_a_vencer', { p_clave: clave });
     if (error) throw error;
     if (!data || data.length === 0) {
-      msg.textContent = 'Nadie vence en los próximos 45 días (o la clave es incorrecta).';
+      msg.textContent = 'A nadie se le vence el año de actualizaciones en los próximos 45 días (o la clave es incorrecta).';
       msg.className = 'deliver-msg';
       return;
     }
     list.innerHTML = data.map(row => {
       const vence = new Date(row.vence_en);
       const dias  = Math.ceil((vence - new Date()) / (1000 * 60 * 60 * 24));
-      const texto = encodeURIComponent(`Hola ${row.profesor_nombre || ''}, te escribo porque tu acceso al Libro Digital de Notas vence en ${dias} días. ¿Quieres renovar por otros 12 meses?`);
+      const texto = encodeURIComponent(`Hola ${row.profesor_nombre || ''}, te escribo porque tu año de actualizaciones del Libro Digital de Notas termina en ${dias} días. Tu acceso a la app sigue siendo de por vida, esto es solo para seguir recibiendo las mejoras nuevas que vayamos lanzando. ¿Quieres renovarlo?`);
       return `<div class="vencer-item">
         <div class="vencer-info">
           <div class="vencer-name">${row.profesor_nombre || row.codigo}</div>
-          <div class="vencer-meta">${row.colegio || ''} · vence ${vence.toLocaleDateString('es-CL')}</div>
+          <div class="vencer-meta">${row.colegio || ''} · actualizaciones hasta ${vence.toLocaleDateString('es-CL')}</div>
         </div>
         <span class="vencer-days ${dias <= 15 ? 'soon' : 'ok'}">${dias} días</span>
         ${row.telefono ? `<a class="btn-wa-rec" href="https://wa.me/${row.telefono}?text=${texto}" target="_blank">Recordar →</a>` : ''}
