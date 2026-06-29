@@ -2344,11 +2344,13 @@ class GradeBook {
   _promptAddSubject() {
     const { courses } = this.state;
     const courseChecks = courses.length ? `
-      <label class="modal-label" style="margin-top:14px">Asignar a clases</label>
+      <label class="modal-label" style="margin-top:14px">Asignar a clases
+        <a href="#" id="m-check-all" style="font-weight:400; margin-left:6px">Marcar todos</a>
+      </label>
       <div class="mc-modal-checks">
         ${courses.map(c => `
           <label class="mc-modal-check">
-            <input type="checkbox" name="asign-course" value="${c.id}" checked>
+            <input type="checkbox" name="asign-course" value="${c.id}">
             ${this._esc(c.name)}
           </label>`).join('')}
       </div>` : '';
@@ -2387,6 +2389,11 @@ class GradeBook {
         this.save(); this.hideModal(); this.render();
         this.toast(`Asignatura "${name}" creada`);
       }
+    });
+
+    document.getElementById('m-check-all')?.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('input[name="asign-course"]').forEach(el => { el.checked = true; });
     });
   }
 
