@@ -428,7 +428,7 @@ class GradeBook {
           ${this._icon('reminder')} Recordatorios${(this.state.reminders||[]).filter(r=>!r.done).length ? ` <span class="sb-recs-badge">${(this.state.reminders||[]).filter(r=>!r.done).length}</span>` : ''}
         </button>
         <button class="sb-btn sb-btn-clases${this.state.view === 'clases' ? ' sb-btn-on' : ''}" data-action="show-clases">
-          ${this._icon('clases')} Gestionar clases
+          ${this._icon('clases')} Gestionar cursos
         </button>
         <div class="sb-backup-row">
           <button class="sb-btn sb-btn-backup" data-action="export-backup" title="Descargar respaldo completo">
@@ -993,6 +993,10 @@ class GradeBook {
       this._promptEditCourse(el.dataset.course);
     } else if (a === 'del-course') {
       this._confirmDeleteCourse(el.dataset.course);
+    } else if (a === 'move-course-up') {
+      this._moveCourse(el.dataset.course, -1);
+    } else if (a === 'move-course-down') {
+      this._moveCourse(el.dataset.course, 1);
 
     } else if (a === 'add-subject') {
       this._promptAddSubject();
@@ -1372,9 +1376,9 @@ class GradeBook {
         <textarea id="m-import-text" class="modal-import-textarea" rows="9"
           placeholder="Pérez González, Juan&#10;López Muñoz, María&#10;Rodríguez Silva, Pedro"></textarea>
         ${otherOptions ? `
-          <div class="modal-section-divider">— o copia nómina de otra clase —</div>
+          <div class="modal-section-divider">— o copia nómina de otro curso —</div>
           <select id="m-copy-course" class="modal-select">
-            <option value="">Seleccionar clase fuente…</option>
+            <option value="">Seleccionar curso fuente…</option>
             ${otherOptions}
           </select>
         ` : ''}`,
@@ -2181,22 +2185,24 @@ class GradeBook {
           </div>
           <div class="mc-course-right">
             <span class="mc-student-count">${studentCount} alumno${studentCount !== 1 ? 's' : ''}</span>
-            <button class="mc-btn mc-btn-edit" data-action="edit-course" data-course="${c.id}" title="Editar clase">✎</button>
-            <button class="mc-btn mc-btn-del" data-action="del-course" data-course="${c.id}" title="Eliminar clase">×</button>
+            <button class="mc-btn mc-btn-move" data-action="move-course-up" data-course="${c.id}" title="Subir"${idx === 0 ? ' disabled' : ''}>↑</button>
+            <button class="mc-btn mc-btn-move" data-action="move-course-down" data-course="${c.id}" title="Bajar"${idx === courses.length - 1 ? ' disabled' : ''}>↓</button>
+            <button class="mc-btn mc-btn-edit" data-action="edit-course" data-course="${c.id}" title="Editar curso">✎</button>
+            <button class="mc-btn mc-btn-del" data-action="del-course" data-course="${c.id}" title="Eliminar curso">×</button>
           </div>
         </div>`;
     }).join('');
 
     return `
       <div class="topbar">
-        <div class="breadcrumb"><span class="bc-overview">Mis Clases</span></div>
+        <div class="breadcrumb"><span class="bc-overview">Mis Cursos</span></div>
         <div class="topbar-actions">
-          <button class="btn-add" data-action="add-course">+ Nueva clase</button>
+          <button class="btn-add" data-action="add-course">+ Nuevo curso</button>
         </div>
       </div>
       <div class="mc-body">
         ${courses.length === 0
-          ? `<div class="mc-empty"><p>Sin clases aún. Haz clic en <strong>+ Nueva clase</strong> para comenzar.</p></div>`
+          ? `<div class="mc-empty"><p>Sin cursos aún. Haz clic en <strong>+ Nuevo curso</strong> para comenzar.</p></div>`
           : `<div class="mc-course-list">${courseRows}</div>`}
         <div class="mc-subjects-panel">
           <div class="mc-subjects-title">Asignaturas disponibles</div>
@@ -2224,9 +2230,9 @@ class GradeBook {
       </label>`).join('');
 
     this.showModal({
-      title: 'Nueva clase',
+      title: 'Nuevo curso',
       body: `
-        <label class="modal-label">Nombre de la clase</label>
+        <label class="modal-label">Nombre del curso</label>
         <input type="text" id="m-input" class="modal-input" placeholder="Ej: 3° Básico Matemática" autofocus>
         <label class="modal-label" style="margin-top:14px">Asignaturas</label>
         <div class="mc-modal-checks">${subjCheckboxes}</div>
@@ -2245,6 +2251,14 @@ class GradeBook {
     });
   }
 
+  _moveCourse(cId, dir) {
+    const i = this.state.courses.findIndex(c => c.id === cId);
+    const j = i + dir;
+    if (i === -1 || j < 0 || j >= this.state.courses.length) return;
+    [this.state.courses[i], this.state.courses[j]] = [this.state.courses[j], this.state.courses[i]];
+    this.save(); this.render();
+  }
+
   _addCourse(name, subjIds, hasTaller) {
     const id = `c_${Date.now()}`;
     this.state.courses.push({ id, name, hasTaller });
@@ -2259,7 +2273,7 @@ class GradeBook {
       this.state.grades[id][sId] = {};
     });
     this.save(); this.render();
-    this.toast(`Clase "${name}" creada`);
+    this.toast(`Curso "${name}" creado`);
   }
 
   _promptEditCourse(cId) {
@@ -2274,9 +2288,9 @@ class GradeBook {
       </label>`).join('');
 
     this.showModal({
-      title: 'Editar clase',
+      title: 'Editar curso',
       body: `
-        <label class="modal-label">Nombre de la clase</label>
+        <label class="modal-label">Nombre del curso</label>
         <input type="text" id="m-input" class="modal-input" value="${this._esc(course.name)}" autofocus>
         <label class="modal-label" style="margin-top:14px">Asignaturas</label>
         <div class="mc-modal-checks">${subjCheckboxes}</div>
@@ -2310,7 +2324,7 @@ class GradeBook {
         this.state.activeSubject = validSubjs[0] || '__obs__';
         this.state.view = 'grades';
         this.save(); this.hideModal(); this.render();
-        this.toast(`Clase "${name}" actualizada`);
+        this.toast(`Curso "${name}" actualizado`);
       }
     });
   }
@@ -2320,8 +2334,8 @@ class GradeBook {
     if (!course) return;
     const studentCount = (this.state.students[cId] || []).length;
     this.showModal({
-      title: 'Eliminar clase',
-      body: `<p class="confirm-message">¿Eliminar la clase <strong>${this._esc(course.name)}</strong>?<br><br>
+      title: 'Eliminar curso',
+      body: `<p class="confirm-message">¿Eliminar el curso <strong>${this._esc(course.name)}</strong>?<br><br>
              Se perderán <strong>${studentCount} alumno${studentCount !== 1 ? 's' : ''}</strong> y todas sus calificaciones, observaciones y datos.<br>
              Esta acción no se puede deshacer.</p>`,
       confirm: 'Eliminar', confirmDanger: true,
@@ -2336,7 +2350,7 @@ class GradeBook {
         if (this.state.activeCourse === cId)
           this.state.activeCourse = this.state.courses[0]?.id || null;
         this.save(); this.hideModal(); this.render();
-        this.toast(`Clase "${course.name}" eliminada`);
+        this.toast(`Curso "${course.name}" eliminado`);
       }
     });
   }
@@ -2344,7 +2358,7 @@ class GradeBook {
   _promptAddSubject() {
     const { courses } = this.state;
     const courseChecks = courses.length ? `
-      <label class="modal-label" style="margin-top:14px">Asignar a clases
+      <label class="modal-label" style="margin-top:14px">Asignar a cursos
         <a href="#" id="m-check-all" style="font-weight:400; margin-left:6px">Marcar todos</a>
       </label>
       <div class="mc-modal-checks">
@@ -2403,7 +2417,7 @@ class GradeBook {
     const { courses } = this.state;
     if (!courses.length) { this.toast('No hay cursos aún'); return; }
     this.showModal({
-      title: `Asignar "${subj.name}" a clases`,
+      title: `Asignar "${subj.name}" a cursos`,
       body: `
         <label class="modal-label">Selecciona los cursos</label>
         <div class="mc-modal-checks">
@@ -2432,7 +2446,7 @@ class GradeBook {
           });
         });
         this.save(); this.hideModal(); this.render();
-        this.toast(`"${subj.name}" asignada a ${assignTo.length} clase${assignTo.length !== 1 ? 's' : ''}`);
+        this.toast(`"${subj.name}" asignada a ${assignTo.length} curso${assignTo.length !== 1 ? 's' : ''}`);
       }
     });
   }
@@ -3171,9 +3185,9 @@ class GradeBook {
         <label class="modal-label">Recordatorio</label>
         <input type="text" id="m-input" class="modal-input" placeholder="Ej: Llevar prueba impresa a 3° Básico" autofocus>
         ${courseOptions ? `
-          <label class="modal-label" style="margin-top:12px">Clase relacionada (opcional)</label>
+          <label class="modal-label" style="margin-top:12px">Curso relacionado (opcional)</label>
           <select id="m-rec-course" class="modal-select">
-            <option value="">Sin clase específica</option>
+            <option value="">Sin curso específico</option>
             ${courseOptions}
           </select>` : ''}`,
       confirm: 'Agregar',
@@ -3284,7 +3298,7 @@ class GradeBook {
       },
       {
         target: '.sb-btn-clases', position: 'right',
-        title: '⚙️ Gestionar clases',
+        title: '⚙️ Gestionar cursos',
         desc: 'Crea y configura tus propios cursos y asignaturas. Aquí comienza todo.',
       },
       {

@@ -2090,6 +2090,9 @@ tfoot tr {
 .mc-btn-edit:hover   { background: var(--surface2); color: var(--ink); border-color: var(--border-2); }
 .mc-btn-del:hover    { background: var(--g-fail-bg); color: var(--g-fail-fg); border-color: var(--g-fail-bdr); }
 .mc-btn-assign:hover { background: var(--g-ok-bg); color: var(--g-ok-fg); border-color: var(--g-ok-bdr); }
+.mc-btn-move:hover   { background: var(--surface2); color: var(--ink); border-color: var(--border-2); }
+.mc-btn-move:disabled { opacity: 0.3; cursor: default; }
+.mc-btn-move:disabled:hover { background: var(--surface); color: var(--ink-3); border-color: var(--border); }
 
 /* Panel lateral de asignaturas */
 .mc-subjects-panel {
