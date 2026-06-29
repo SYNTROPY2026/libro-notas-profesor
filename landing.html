@@ -297,6 +297,23 @@
     }
     .feat-desc { font-size: 0.88rem; color: var(--ink2); line-height: 1.6; font-weight: 300; }
 
+    /* ── DEMO ── */
+    .demo { padding: 96px 48px; background: var(--cream); }
+    .demo-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    }
+    .demo-shot {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(30,58,95,0.10);
+    }
+    .demo-shot img { width: 100%; display: block; }
+    .demo-shot figcaption {
+      padding: 14px 18px; font-size: 0.88rem; color: var(--navy);
+      font-weight: 600; text-align: center; border-top: 1px solid var(--border);
+    }
+
     /* ── HOW ── */
     .how { background: var(--navy); padding: 96px 48px; }
     .how .section-title { color: #fff; }
@@ -542,6 +559,8 @@
       .compare { padding: 60px 20px; }
       .features { padding: 60px 20px; }
       .features-grid { grid-template-columns: 1fr; }
+      .demo { padding: 60px 20px; }
+      .demo-grid { grid-template-columns: 1fr; }
       .how { padding: 60px 20px; }
       .how-steps { grid-template-columns: 1fr; }
       .how-steps::before { display: none; }
@@ -741,6 +760,25 @@
       <div class="feat-title">Informes imprimibles</div>
       <p class="feat-desc">Genera informes por curso o por alumno listos para imprimir en PDF en segundos.</p>
     </div>
+  </div>
+</section>
+
+<!-- ── DEMO / CAPTURAS ── -->
+<section class="demo" id="demo">
+  <div class="section-header">
+    <div class="section-tag">Por dentro</div>
+    <h2 class="section-title">Así se ve la app de verdad</h2>
+    <p class="section-sub">Sin maquetas — esto es la aplicación real, con datos de ejemplo.</p>
+  </div>
+  <div class="demo-grid">
+    <figure class="demo-shot">
+      <img src="demo-notas.png" alt="Tabla de notas con promedios automáticos" loading="lazy">
+      <figcaption>Notas y promedios calculados al instante</figcaption>
+    </figure>
+    <figure class="demo-shot">
+      <img src="demo-cursos.png" alt="Pantalla de gestión de cursos y asignaturas" loading="lazy">
+      <figcaption>Organiza tus cursos y asignaturas a tu manera</figcaption>
+    </figure>
   </div>
 </section>
 
