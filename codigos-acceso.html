@@ -72,21 +72,44 @@
 
     .steps { font-size: 0.85rem; color: #555; line-height: 1.7; }
     .steps a { color: #1b2a48; font-weight: 600; }
+
+    .deliver-row { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .deliver-row input {
+      padding: 9px 12px; border: 1px solid #cebf98; border-radius: 7px;
+      font-size: 0.9rem; font-family: inherit;
+    }
+    .btn-deliver { background: #25D366; color: #fff; }
+    .btn-deliver:hover { background: #1fb855; }
+    .btn-deliver:disabled { background: #ccc; cursor: not-allowed; }
+    .deliver-msg { font-size: 0.85rem; margin-top: 10px; }
+    .deliver-msg.error { color: #c0392b; }
+    .deliver-msg.ok { color: #1b5e20; }
   </style>
 </head>
 <body>
 <div class="page">
 
   <header>
-    <h1>📒 Generador de Códigos</h1>
+    <h1>📒 Panel de Códigos</h1>
     <p>Libro Digital de Notas · Año escolar 2026</p>
   </header>
 
   <div class="note">
     <strong>Cómo funciona ahora:</strong> los códigos viven en Supabase, no en el código fuente de la app.
-    Esta página solo te ayuda a generar códigos nuevos con el formato correcto y el SQL para insertarlos.
-    Para ver o cambiar el estado de un código existente (disponible, enviado, activo, revocado), usa el
+    Esta página te deja entregar un código en 2 clics, o generar códigos nuevos cuando se acaben.
+    Para ver o cambiar el estado de cualquier código a mano, usa el
     <strong>Table Editor</strong> de tu proyecto en <a href="https://supabase.com/dashboard" target="_blank">supabase.com/dashboard</a> → tabla <code>codigos_acceso</code>.
+  </div>
+
+  <div class="card">
+    <h2>Entregar código a un comprador</h2>
+    <div class="deliver-row">
+      <input id="d-telefono" type="text" placeholder="WhatsApp del comprador (ej: 56912345678)">
+      <input id="d-nombre" type="text" placeholder="Nombre del profesor/a">
+      <input id="d-colegio" type="text" placeholder="Colegio (opcional)">
+      <button class="btn btn-deliver" id="deliver-btn" onclick="entregarCodigo()">Asignar código y abrir WhatsApp →</button>
+    </div>
+    <div class="deliver-msg" id="deliver-msg"></div>
   </div>
 
   <div class="card">
@@ -114,7 +137,59 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
+const SUPABASE_URL      = 'https://rcfcgypqjocwmjbztiet.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_8lMX08LnPDXvzIw_DvjOYA_kmGEMbFp';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+async function entregarCodigo() {
+  const telefono = document.getElementById('d-telefono').value.replace(/\D/g, '');
+  const nombre   = document.getElementById('d-nombre').value.trim();
+  const colegio  = document.getElementById('d-colegio').value.trim();
+  const btn      = document.getElementById('deliver-btn');
+  const msg      = document.getElementById('deliver-msg');
+
+  msg.textContent = ''; msg.className = 'deliver-msg';
+
+  if (!telefono || !nombre) {
+    msg.textContent = 'Ingresa al menos el WhatsApp y el nombre.';
+    msg.className = 'deliver-msg error';
+    return;
+  }
+
+  btn.disabled = true; btn.textContent = 'Asignando...';
+  try {
+    const { data, error } = await sb.rpc('asignar_codigo', { p_telefono: telefono, p_nombre: nombre, p_colegio: colegio });
+    if (error) throw error;
+    if (!data?.ok) {
+      msg.textContent = data?.error === 'sin_stock'
+        ? 'No quedan códigos disponibles — genera más abajo antes de entregar otro.'
+        : 'No se pudo asignar el código. Intenta de nuevo.';
+      msg.className = 'deliver-msg error';
+      return;
+    }
+
+    const codigo = data.codigo;
+    msg.textContent = `✓ Código ${codigo} asignado a ${nombre}.`;
+    msg.className = 'deliver-msg ok';
+
+    const texto = encodeURIComponent(
+      `¡Hola ${nombre}! Aquí está tu código de acceso al Libro Digital de Notas:\n\n${codigo}\n\nAbre https://syntropy2026.github.io/libro-notas-profesor/ e ingrésalo para activar tu cuenta. Cualquier duda, escríbeme por este mismo chat 😊`
+    );
+    window.open(`https://wa.me/${telefono}?text=${texto}`, '_blank');
+
+    document.getElementById('d-telefono').value = '';
+    document.getElementById('d-nombre').value = '';
+    document.getElementById('d-colegio').value = '';
+  } catch {
+    msg.textContent = 'Error de conexión con Supabase. Revisa tu internet e intenta de nuevo.';
+    msg.className = 'deliver-msg error';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Asignar código y abrir WhatsApp →';
+  }
+}
+
 const CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // sin 0/O/1/I para evitar confusiones al transcribir
 let generados = [];
 

@@ -333,7 +333,7 @@ class GradeBook {
        </button>` +
       `<div class="sb-backdrop" data-action="close-sidebar"></div>` +
       `<aside class="sidebar">${this.renderSidebar()}</aside>` +
-      `<main  class="main">${this._renderBackupBanner()}${this.renderMain()}</main>`;
+      `<main  class="main">${this._renderRenewalBanner()}${this._renderBackupBanner()}${this.renderMain()}</main>`;
   }
 
   renderSidebar() {
@@ -1092,6 +1092,9 @@ class GradeBook {
       this._showBackupHelp();
     } else if (a === 'dismiss-backup-banner') {
       document.getElementById('backup-banner')?.remove();
+
+    } else if (a === 'dismiss-renewal-banner') {
+      document.getElementById('renewal-banner')?.remove();
 
     } else if (a === 'print-report-overview' || a === 'print-report-course') {
       window.print();
@@ -2597,6 +2600,32 @@ class GradeBook {
     if (!last) return null;
     const diff = Date.now() - new Date(last).getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24));
+  }
+
+  _renderRenewalBanner() {
+    const match = (this.state.activationCode || '').match(/LIBRO-(\d{4})-/);
+    if (!match) return '';
+    const year = parseInt(match[1], 10);
+    const now = new Date();
+    const soonFrom = new Date(year, 11, 1);   // 1 dic — empieza el recordatorio
+    const expiredAt = new Date(year, 11, 31); // 31 dic — año escolar terminado
+    if (now < soonFrom) return '';
+
+    const waText = encodeURIComponent(`Hola, quiero renovar mi Libro Digital de Notas para el próximo año escolar. Mi código actual es: ${this.state.activationCode}`);
+    const waLink = `https://wa.me/56982857408?text=${waText}`;
+
+    if (now > expiredAt) {
+      return `<div class="renewal-banner" id="renewal-banner">
+        <span class="renewal-banner-msg">📅 Tu acceso del año escolar ${year} ya terminó. Puedes seguir usando la app, pero te recomendamos renovar para el próximo año.</span>
+        <a href="${waLink}" target="_blank" class="renewal-banner-btn">Renovar por WhatsApp</a>
+        <button class="renewal-banner-close" data-action="dismiss-renewal-banner" title="Cerrar">×</button>
+      </div>`;
+    }
+    return `<div class="renewal-banner" id="renewal-banner">
+      <span class="renewal-banner-msg">📅 Tu acceso del año escolar ${year} está por terminar.</span>
+      <a href="${waLink}" target="_blank" class="renewal-banner-btn">Renovar por WhatsApp</a>
+      <button class="renewal-banner-close" data-action="dismiss-renewal-banner" title="Cerrar">×</button>
+    </div>`;
   }
 
   _renderBackupBanner() {
