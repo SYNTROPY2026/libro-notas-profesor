@@ -78,6 +78,16 @@
       font-family: 'Courier New', monospace;
       font-size: 0.82rem; color: #1b2a48; font-weight: 600;
     }
+    .install-hint {
+      background: #fdf8f0; border: 1px solid #e8e0d0;
+      border-radius: 10px; padding: 14px 18px 10px; margin-top: 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .install-hint svg { width: 220px; max-width: 100%; height: auto; }
+    .install-hint-text {
+      font-size: 0.8rem; color: #555; line-height: 1.5; text-align: center; font-weight: 300;
+    }
+    .install-hint-text strong { color: #1b2a48; font-weight: 600; }
 
     /* ── Steps ── */
     .steps { display: flex; flex-direction: column; gap: 0; }
@@ -205,6 +215,24 @@
       <span style="font-size:1.1rem">🌐</span>
       <span class="link-url">syntropy2026.github.io/libro-notas-profesor/</span>
     </div>
+    <div class="install-hint">
+      <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cómo instalar la app en el escritorio del computador">
+        <rect x="10" y="8" width="300" height="48" rx="8" fill="#fff" stroke="#e8e0d0" stroke-width="1.5"/>
+        <circle cx="26" cy="22" r="3.5" fill="#e0d8c8"/>
+        <circle cx="38" cy="22" r="3.5" fill="#e0d8c8"/>
+        <circle cx="50" cy="22" r="3.5" fill="#e0d8c8"/>
+        <rect x="20" y="32" width="260" height="16" rx="8" fill="#f8f5ee" stroke="#e8e0d0"/>
+        <text x="30" y="43" font-size="8" fill="#888" font-family="Arial, sans-serif">syntropy2026.github.io/libro-notas-profesor</text>
+        <circle cx="266" cy="40" r="11" fill="none" stroke="#e8b84b" stroke-width="2"/>
+        <rect x="260" y="35" width="12" height="8" rx="1.5" fill="none" stroke="#1b2a48" stroke-width="1.6"/>
+        <path d="M266,34 v6 M263,37 l3,3 l3,-3" stroke="#1b2a48" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M266,60 C266,80 266,80 266,95" stroke="#c8bfa8" stroke-width="2" fill="none" stroke-dasharray="3,3"/>
+        <polygon points="261,92 271,92 266,100" fill="#c8bfa8"/>
+        <rect x="240" y="100" width="52" height="24" rx="6" fill="#1b2a48"/>
+        <text x="266" y="117" font-size="14" text-anchor="middle">📒</text>
+      </svg>
+      <p class="install-hint-text">Busca este ícono en la barra de direcciones de Chrome y haz clic en <strong>Instalar</strong> — la app queda en tu escritorio, como un programa aparte, sin tener que abrir el navegador cada vez.</p>
+    </div>
   </div>
 
   <!-- Pasos -->
@@ -311,7 +339,7 @@
         <div class="feat-icon">🔍</div>
         <div>
           <div class="feat-title">Deudores de notas</div>
-          <div class="feat-desc">Ve con un clic quién tiene evaluaciones pendientes en cada curso.</div>
+          <div class="feat-desc">Ve con un clic quién tiene evaluaciones pendientes en cada curso. Una evaluación cuenta como "pendiente" recién cuando <strong>al menos otro alumno del mismo curso ya tiene esa nota registrada</strong> — así nunca te va a marcar como deuda algo que simplemente todavía no has empezado a poner.</div>
         </div>
       </div>
 
@@ -383,23 +411,28 @@
         <span>☁️</span> Respaldo automático en Google Drive
       </div>
       <div class="drive-desc">
-        La app guarda una copia de todos tus datos directamente en tu Google Drive. Si cambias de computador, formateas el equipo o simplemente quieres usar la app en otro dispositivo, tus notas te esperan en la nube.
+        Al conectar tu cuenta, la app guarda tus datos en un espacio <strong>privado y oculto</strong> dentro de tu Google Drive — no es una carpeta que vayas a ver si navegas tu Drive normalmente, es un espacio que solo esta app puede leer y escribir. Por eso no tienes que crear, buscar ni mover ningún archivo a mano: conectas tu cuenta una sola vez, y desde ahí los botones <strong>Guardar</strong> y <strong>Restaurar</strong> hacen todo solos.
         <br><br>
-        <strong>Importante:</strong> el computador y el celular no se actualizan solos entre sí. Si registras notas en el celular, eso no aparece automáticamente en el computador (ni al revés) — el respaldo en Drive es justamente el puente entre ambos: guardas desde uno, restauras en el otro.
+        Cada vez que haces clic en <strong>Guardar en Drive</strong>, se reemplaza la copia anterior por la más reciente — siempre queda solo una, actualizada (no se acumulan varias). Al hacer clic en <strong>Restaurar desde Drive</strong> desde cualquier dispositivo donde conectes esa misma cuenta, la app encuentra esa copia sola, te muestra la fecha en que se guardó, y reemplaza los datos actuales por esos.
+        <br><br>
+        <strong>Importante:</strong> el computador y el celular no se actualizan solos entre sí mientras trabajas. Si registras notas en el celular, eso no aparece automáticamente en el computador (ni al revés) — el respaldo en Drive es el puente entre ambos: guardas desde uno, restauras en el otro cuando quieras actualizarlo.
       </div>
       <div class="drive-steps">
         <div class="drive-step">
           <div class="drive-step-num">1</div>
-          <div>Ve a <strong>Configuración → Respaldo en Drive</strong> y conéctate con tu cuenta Google.</div>
+          <div>Ve a <strong>Configuración → Respaldo en Drive</strong> y conéctate con tu cuenta Google (solo la primera vez).</div>
         </div>
         <div class="drive-step">
           <div class="drive-step-num">2</div>
-          <div>Haz clic en <strong>Guardar en Drive</strong> cada vez que quieras dejar una copia. La app también puede recordártelo.</div>
+          <div>Haz clic en <strong>Guardar en Drive</strong> cada vez que quieras dejar tu copia más reciente. La app también puede recordártelo si pasa mucho tiempo sin respaldo.</div>
         </div>
         <div class="drive-step">
           <div class="drive-step-num">3</div>
-          <div>Para restaurar desde otro dispositivo: entra a la app, ve a <strong>Configuración → Restaurar desde Drive</strong> y confirma. Listo.</div>
+          <div>Para restaurar desde otro dispositivo: conecta la misma cuenta de Google, ve a <strong>Restaurar desde Drive</strong> y confirma — no necesitas buscar ningún archivo, la app lo encuentra sola.</div>
         </div>
+      </div>
+      <div class="drive-desc" style="margin-top:14px; padding-top:14px; border-top:1px dashed #e8e0d0">
+        <strong>¿Y los botones "Crear respaldo" / "Restaurar" de archivo?</strong> Son una opción aparte, sin necesidad de cuenta Google: "Crear respaldo" descarga un archivo <em>.json</em> a tu carpeta de Descargas, con la fecha en el nombre. Ese archivo sí tienes que moverlo tú (por ejemplo a un pendrive, o subiéndolo a Drive/OneDrive a mano) si quieres usarlo para restaurar en otro equipo — a diferencia del respaldo automático de arriba, acá la app no sabe dónde lo dejaste.
       </div>
     </div>
   </div>
