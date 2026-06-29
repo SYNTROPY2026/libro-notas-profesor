@@ -113,6 +113,15 @@
   </div>
 
   <div class="card">
+    <h2>Marcar código como prueba</h2>
+    <div class="deliver-row">
+      <input id="p-codigo" type="text" placeholder="LIBRO-2026-XXXXX" style="text-transform:uppercase">
+      <button class="btn btn-gen" onclick="marcarPrueba()">Marcar como prueba</button>
+    </div>
+    <div class="deliver-msg" id="prueba-msg"></div>
+  </div>
+
+  <div class="card">
     <h2>Generar códigos nuevos</h2>
     <div class="gen-row">
       <label for="qty">Cantidad:</label>
@@ -187,6 +196,37 @@ async function entregarCodigo() {
     msg.className = 'deliver-msg error';
   } finally {
     btn.disabled = false; btn.textContent = 'Asignar código y abrir WhatsApp →';
+  }
+}
+
+async function marcarPrueba() {
+  const input = document.getElementById('p-codigo');
+  const msg   = document.getElementById('prueba-msg');
+  const codigo = input.value.trim().toUpperCase();
+  msg.textContent = ''; msg.className = 'deliver-msg';
+
+  if (!codigo) {
+    msg.textContent = 'Ingresa un código.';
+    msg.className = 'deliver-msg error';
+    return;
+  }
+
+  try {
+    const { data, error } = await sb.rpc('marcar_prueba', { p_codigo: codigo });
+    if (error) throw error;
+    if (!data?.ok) {
+      msg.textContent = data?.error === 'no_encontrado'
+        ? 'No existe ese código.'
+        : 'No se pudo marcar (está revocado).';
+      msg.className = 'deliver-msg error';
+      return;
+    }
+    msg.textContent = `✓ ${codigo} marcado como prueba.`;
+    msg.className = 'deliver-msg ok';
+    input.value = '';
+  } catch {
+    msg.textContent = 'Error de conexión con Supabase. Revisa tu internet e intenta de nuevo.';
+    msg.className = 'deliver-msg error';
   }
 }
 
