@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /codigos-acceso.html
-Disallow: /propuesta-demo.html
 Disallow: /novedades-junio-2026.html
 Disallow: /guia-inicio.html
 Disallow: /gracias.html
