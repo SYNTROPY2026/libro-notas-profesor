@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitación Demo — Libro Digital de Notas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Crimson+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: #f0ece0; color: #1a1208;
+      padding: 32px 20px 60px;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .card {
+      max-width: 620px; margin: 0 auto;
+      background: #fff; border-radius: 18px;
+      overflow: hidden; box-shadow: 0 8px 48px rgba(0,0,0,0.13);
+    }
+
+    /* ── Header ── */
+    .hdr {
+      background: #1b2a48; padding: 36px 36px 28px;
+      position: relative; overflow: hidden;
+    }
+    .hdr::after {
+      content: ''; position: absolute; bottom: -40px; right: -40px;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .hdr-tag {
+      display: inline-block; background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.75); font-size: 0.72rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 3px 12px; border-radius: 99px; margin-bottom: 16px;
+    }
+    .hdr-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2rem; font-weight: 700; color: #fff;
+      line-height: 1.1; margin-bottom: 8px;
+    }
+    .hdr-sub {
+      font-size: 0.95rem; color: rgba(255,255,255,0.6);
+      font-weight: 300; line-height: 1.55;
+    }
+
+    /* ── Body ── */
+    .body { padding: 32px 36px; }
+
+    .greeting {
+      font-size: 1.05rem; line-height: 1.75;
+      color: #2c2c2c; margin-bottom: 28px;
+    }
+    .greeting strong { color: #1b2a48; font-weight: 600; }
+
+    /* ── Section title ── */
+    .section-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1rem; font-weight: 700; color: #1b2a48;
+      text-transform: uppercase; letter-spacing: .06em;
+      margin-bottom: 12px;
+    }
+
+    /* ── Features ── */
+    .features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .feat {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: #fdf8f0; border: 1px solid #e8e0d0;
+      border-radius: 10px; padding: 14px 16px;
+    }
+    .feat-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+    .feat-body { flex: 1; }
+    .feat-title { font-size: 0.95rem; font-weight: 600; color: #1b2a48; margin-bottom: 3px; }
+    .feat-desc  { font-size: 0.85rem; color: #555; line-height: 1.55; font-weight: 300; }
+    .feat-tag {
+      display: inline-block; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 2px 7px; border-radius: 4px; margin-left: 6px;
+      vertical-align: middle;
+    }
+    .tag-coord  { background: #e8eaf6; color: #283593; }
+    .tag-doc    { background: #e8f5e9; color: #1b5e20; }
+    .tag-conv   { background: #fce4ec; color: #880e4f; }
+
+    /* ── Steps ── */
+    .steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .step  { display: flex; gap: 14px; align-items: flex-start; }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #1b2a48; color: #fff; font-size: 0.72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .step-text { font-size: 0.93rem; color: #2c2c2c; line-height: 1.55; }
+    .step-text strong { color: #1b2a48; }
+
+    /* ── Código ── */
+    .code-box {
+      background: #1b2a48; border-radius: 12px;
+      padding: 20px 24px; margin-bottom: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .code-label { font-size: 0.72rem; color: rgba(255,255,255,0.5); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+    .code-val   { font-family: 'Courier New', monospace; font-size: 1.25rem; font-weight: 700; color: #e8b84b; letter-spacing: .08em; }
+    .code-note  { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 3px; }
+    .code-copy  {
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 7px;
+      padding: 7px 14px; font-size: 0.8rem; font-family: inherit;
+      cursor: pointer; transition: background .15s; white-space: nowrap;
+    }
+    .code-copy:hover { background: rgba(255,255,255,0.18); }
+    .code-copy.copied { color: #6fcf97; border-color: #6fcf97; }
+
+    /* ── CTA ── */
+    .cta {
+      display: block; width: 100%; background: #1b2a48; color: #fff;
+      text-align: center; padding: 15px; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; margin-bottom: 12px;
+      transition: background .15s; font-family: inherit;
+    }
+    .cta:hover { background: #2f4e7c; }
+    .cta-hint { text-align: center; font-size: 0.8rem; color: #aaa; margin-bottom: 24px; }
+
+    /* ── Footer ── */
+    .ftr {
+      border-top: 1px solid #eee; padding-top: 20px;
+      font-size: 0.82rem; color: #aaa; line-height: 1.7; text-align: center;
+    }
+    .ftr a { color: #25D366; font-weight: 600; }
+
+    @media (max-width: 540px) {
+      .body { padding: 24px 20px; }
+      .hdr  { padding: 28px 20px 22px; }
+      .code-box { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <div class="hdr">
+    <div class="hdr-tag">📒 Invitación Demo · 2026</div>
+    <h1 class="hdr-title">Libro Digital<br>de Notas</h1>
+    <p class="hdr-sub">Para docentes que gestionan mucho y necesitan una herramienta que no les genere más trabajo del que resuelve.</p>
+  </div>
+
+  <div class="body">
+
+    <p class="greeting">
+      Hola,<br><br>
+      Con el perfil que tienes — <strong>coordinador, docente y encargado de proyectos</strong> —
+      sabes mejor que nadie lo que se pierde en tareas administrativas repetitivas.
+      Registrar notas, calcular promedios, hacer seguimiento de quién debe qué evaluación.<br><br>
+      Te comparto esta app para que la pruebes. Es simple, va al grano, y tiene algunas
+      funciones que creo te van a hacer sentido directo.
+    </p>
+
+    <p class="section-title">Lo que hace la app — y por qué te importa</p>
+    <div class="features">
+
+      <div class="feat">
+        <div class="feat-icon">📊</div>
+        <div class="feat-body">
+          <div class="feat-title">Promedios automáticos por semestre y año
+            <span class="feat-tag tag-doc">Docente</span>
+          </div>
+          <div class="feat-desc">Ingresas la nota, la app calcula el promedio semestral y final al instante. Sin fórmulas, sin errores. Si ya usas Excel, vas a notar la diferencia de inmediato.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">📥</div>
+        <div class="feat-body">
+          <div class="feat-title">Importar alumnos desde Excel
+            <span class="feat-tag tag-doc">Docente</span>
+          </div>
+          <div class="feat-desc">Copias la lista de alumnos desde tu planilla actual y la pegas directamente. Vista previa antes de confirmar. No tienes que volver a escribir ningún nombre.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">🔍</div>
+        <div class="feat-body">
+          <div class="feat-title">Deudores de notas por curso
+            <span class="feat-tag tag-coord">Coordinador</span>
+          </div>
+          <div class="feat-desc">Con un clic ves qué alumnos tienen evaluaciones pendientes en cada curso y asignatura. Útil cuando tienes que hacer seguimiento de cierre de semestre o informes.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">📝</div>
+        <div class="feat-body">
+          <div class="feat-title">Observaciones por alumno
+            <span class="feat-tag tag-conv">Convivencia</span>
+          </div>
+          <div class="feat-desc">Puedes registrar observaciones individuales con fecha para cada estudiante. Separadas del libro de notas, pero en la misma app. Práctico para el seguimiento de convivencia escolar.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">🔔</div>
+        <div class="feat-body">
+          <div class="feat-title">Recordatorios por curso
+            <span class="feat-tag tag-coord">Coordinador</span>
+          </div>
+          <div class="feat-desc">Crea recordatorios asociados a un curso específico. La app te avisa al entrar si tienes algo pendiente. Sirve para fechas de entrega, reuniones, plazos de calificaciones.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">🖨️</div>
+        <div class="feat-body">
+          <div class="feat-title">Informes imprimibles en PDF
+            <span class="feat-tag tag-coord">Coordinador</span>
+          </div>
+          <div class="feat-desc">Genera un informe del curso listo para imprimir — con nombre del colegio, profesor y todas las notas organizadas. Útil para presentar a directivos o archivar.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-title">Cómo empezar</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Abre el link en Chrome e ingresa el <strong>código de acceso</strong> que está abajo. Solo se pide una vez.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Crea tus cursos y asignaturas, o edita los que vienen por defecto.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Importa tus alumnos desde Excel — copiar, pegar, confirmar. Listo en menos de 2 minutos.</div>
+      </div>
+    </div>
+
+    <div class="code-box">
+      <div>
+        <div class="code-label">Tu código de acceso</div>
+        <div class="code-val">LIBRO-2026-B7R2N</div>
+        <div class="code-note">Válido por el año escolar 2026 · Solo para ti</div>
+      </div>
+      <button class="code-copy" id="copy-btn" onclick="copyCode()">Copiar código</button>
+    </div>
+
+    <a href="https://syntropy2026.github.io/libro-notas-profesor/" target="_blank" class="cta">
+      Abrir Libro Digital de Notas →
+    </a>
+    <p class="cta-hint">Sin instalar nada · Sin crear cuenta · Tus datos son solo tuyos</p>
+
+    <div class="ftr">
+      Cualquier duda, escríbeme directo.<br>
+      <a href="https://wa.me/56982857408" target="_blank">WhatsApp →</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function copyCode() {
+  navigator.clipboard.writeText('LIBRO-2026-B7R2N').then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar código'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

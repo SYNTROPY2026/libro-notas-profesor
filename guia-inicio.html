@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro Digital de Notas — Guía de inicio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Crimson+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: #f0ece0;
+      color: #1a1208;
+      padding: 32px 20px 60px;
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.12);
+    }
+
+    /* ── Header ── */
+    .hdr {
+      background: #1b2a48;
+      padding: 40px 44px 34px;
+      position: relative; overflow: hidden;
+    }
+    .hdr::after {
+      content: ''; position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%; background: rgba(255,255,255,0.04);
+    }
+    .hdr-emoji { font-size: 2.6rem; margin-bottom: 12px; display: block; }
+    .hdr-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2.2rem; font-weight: 700; color: #fff;
+      line-height: 1.1; margin-bottom: 8px;
+    }
+    .hdr-sub { font-size: 1rem; color: rgba(255,255,255,0.5); font-weight: 300; }
+
+    /* ── Sections ── */
+    .section { padding: 32px 44px; border-bottom: 1px solid #f0ece0; }
+    .section:last-child { border-bottom: none; }
+    .section-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: #aaa; margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.2rem; font-weight: 700; color: #1b2a48;
+      margin-bottom: 16px;
+    }
+
+    /* ── Código + Link ── */
+    .code-box {
+      background: #1b2a48; border-radius: 12px;
+      padding: 20px 24px; margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .code-val {
+      font-family: 'Courier New', monospace;
+      font-size: 1.5rem; font-weight: 700;
+      color: #e8b84b; letter-spacing: .09em;
+    }
+    .code-note { font-size: 0.74rem; color: rgba(255,255,255,0.33); margin-top: 4px; }
+    .link-box {
+      background: #f8f5ee; border: 1px solid #e8e0d0;
+      border-radius: 10px; padding: 13px 18px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .link-url {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem; color: #1b2a48; font-weight: 600;
+    }
+
+    /* ── Steps ── */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step { display: flex; gap: 18px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid #f5f2ec; }
+    .step:last-child { border-bottom: none; }
+    .step-left { display: flex; flex-direction: column; align-items: center; }
+    .step-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: #1b2a48; color: #fff;
+      font-size: 0.78rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-line { width: 2px; flex: 1; min-height: 16px; background: #e8e0d0; margin-top: 5px; }
+    .step:last-child .step-line { display: none; }
+    .step-body { padding-top: 3px; }
+    .step-title { font-size: 0.97rem; font-weight: 600; color: #1b2a48; margin-bottom: 4px; }
+    .step-desc { font-size: 0.86rem; color: #555; line-height: 1.65; font-weight: 300; }
+    .step-desc strong { color: #1b2a48; font-weight: 600; }
+    .step-tip {
+      margin-top: 7px; background: #fdf8f0;
+      border-left: 3px solid #e8b84b;
+      padding: 6px 12px; border-radius: 0 6px 6px 0;
+      font-size: 0.8rem; color: #666; line-height: 1.55;
+    }
+
+    /* ── Features grid ── */
+    .feats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .feat {
+      background: #fdf8f0; border: 1px solid #e8e0d0;
+      border-radius: 10px; padding: 14px 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .feat-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .feat-title { font-size: 0.88rem; font-weight: 600; color: #1b2a48; margin-bottom: 3px; }
+    .feat-desc  { font-size: 0.78rem; color: #666; line-height: 1.55; font-weight: 300; }
+
+    /* ── Drive section ── */
+    .drive-box {
+      background: #f0f4ff; border: 1px solid #c8d4f0;
+      border-radius: 12px; padding: 20px 22px;
+    }
+    .drive-title {
+      font-size: 0.97rem; font-weight: 600; color: #1b2a48;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .drive-desc { font-size: 0.86rem; color: #444; line-height: 1.7; font-weight: 300; }
+    .drive-desc strong { color: #1b2a48; font-weight: 600; }
+    .drive-steps {
+      margin-top: 12px; display: flex; flex-direction: column; gap: 7px;
+    }
+    .drive-step {
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: 0.83rem; color: #444; line-height: 1.55;
+    }
+    .drive-step-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #1b2a48; color: #fff;
+      font-size: 0.68rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    /* ── Tips ── */
+    .tips { display: flex; flex-direction: column; gap: 10px; }
+    .tip-row {
+      display: flex; gap: 12px; align-items: flex-start;
+      font-size: 0.86rem; color: #444; line-height: 1.6;
+    }
+    .tip-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    /* ── Footer ── */
+    .ftr {
+      background: #1b2a48;
+      padding: 24px 44px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; flex-wrap: wrap;
+    }
+    .ftr-text { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+    .ftr-text strong { color: #fff; font-weight: 600; }
+    .ftr-wa {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #25D366; color: #fff;
+      padding: 10px 20px; border-radius: 99px;
+      font-size: 0.88rem; font-weight: 600;
+      text-decoration: none; white-space: nowrap;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .page { box-shadow: none; border-radius: 0; max-width: 100%; }
+      .hdr, .ftr, .code-box, .step-num, .drive-step-num {
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
+    }
+    @media (max-width: 560px) {
+      .section { padding: 24px 22px; }
+      .hdr { padding: 28px 22px 24px; }
+      .ftr { padding: 20px 22px; }
+      .feats { grid-template-columns: 1fr; }
+      .code-box { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="hdr">
+    <span class="hdr-emoji">📒</span>
+    <h1 class="hdr-title">Libro Digital<br>de Notas</h1>
+    <p class="hdr-sub">Guía de inicio · Acceso personal 2026</p>
+  </div>
+
+  <!-- Código y link -->
+  <div class="section">
+    <div class="section-label">Tu acceso</div>
+    <div class="code-box">
+      <div>
+        <div class="code-val">LIBRO-2026-B7R2N</div>
+        <div class="code-note">Código personal · Solo se pide una vez al entrar</div>
+      </div>
+      <span style="font-size:2rem">🔑</span>
+    </div>
+    <div class="link-box">
+      <span style="font-size:1.1rem">🌐</span>
+      <span class="link-url">syntropy2026.github.io/libro-notas-profesor/</span>
+    </div>
+  </div>
+
+  <!-- Pasos -->
+  <div class="section">
+    <div class="section-label">Primeros pasos</div>
+    <p class="section-title">Cómo empezar en menos de 5 minutos</p>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Abre la aplicación en Chrome</div>
+          <div class="step-desc">Escribe la dirección de arriba en tu navegador y presiona Enter. Funciona en computador, tablet y celular sin necesidad de instalar nada.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Ingresa tu código de acceso</div>
+          <div class="step-desc">Al entrar por primera vez te pedirá el código. Escríbelo exactamente como aparece arriba y haz clic en <strong>Activar</strong>.</div>
+          <div class="step-tip">💡 Solo se pide una vez. La próxima vez que abras la app entras directo.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Agrega tu colegio, cursos y asignaturas</div>
+          <div class="step-desc">Haz clic en <strong>＋ Agregar mi colegio</strong> para personalizar la app con tu establecimiento. Luego crea tus cursos y asignaturas desde el menú lateral.</div>
+          <div class="step-tip">💡 Puedes agregar todos los cursos y asignaturas que necesites.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">4</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Agrega tus alumnos y comienza a registrar</div>
+          <div class="step-desc">Puedes escribir los nombres uno a uno, o <strong>copiar la lista desde Excel y pegarla directamente</strong>. Las notas y promedios se calculan solos.</div>
+          <div class="step-tip">💡 El promedio semestral y final aparece automáticamente cada vez que ingresas una nota.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Prestaciones -->
+  <div class="section">
+    <div class="section-label">¿Qué puedes hacer?</div>
+    <p class="section-title">Todo lo que incluye la aplicación</p>
+    <div class="feats">
+
+      <div class="feat">
+        <div class="feat-icon">📊</div>
+        <div>
+          <div class="feat-title">Promedios automáticos</div>
+          <div class="feat-desc">Semestral y anual calculados al instante. Sin fórmulas ni planillas.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">📥</div>
+        <div>
+          <div class="feat-title">Importar desde Excel</div>
+          <div class="feat-desc">Copia y pega la nómina de alumnos desde tu planilla actual en segundos.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">🔍</div>
+        <div>
+          <div class="feat-title">Deudores de notas</div>
+          <div class="feat-desc">Ve con un clic quién tiene evaluaciones pendientes en cada curso.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">📝</div>
+        <div>
+          <div class="feat-title">Observaciones</div>
+          <div class="feat-desc">Registra observaciones por alumno con fecha. Quedan guardadas para consultar cuando quieras.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">🔔</div>
+        <div>
+          <div class="feat-title">Recordatorios</div>
+          <div class="feat-desc">Crea avisos por curso para fechas de entrega, reuniones o plazos de cierre.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">🖨️</div>
+        <div>
+          <div class="feat-title">Informes para imprimir</div>
+          <div class="feat-desc">Genera un informe del curso con todas las notas, listo para imprimir o guardar como PDF.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">📋</div>
+        <div>
+          <div class="feat-title">Notas conceptuales</div>
+          <div class="feat-desc">Registra también evaluaciones con escala I / S / B / MB para los talleres o asignaturas que lo requieran.</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">📱</div>
+        <div>
+          <div class="feat-title">Funciona en celular</div>
+          <div class="feat-desc">Puedes usarla desde el teléfono. También se puede instalar como app desde el navegador.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Drive backup -->
+  <div class="section">
+    <div class="section-label">Respaldo de datos</div>
+    <p class="section-title">Tus notas siempre a salvo</p>
+    <div class="drive-box">
+      <div class="drive-title">
+        <span>☁️</span> Respaldo automático en Google Drive
+      </div>
+      <div class="drive-desc">
+        La app guarda una copia de todos tus datos directamente en tu Google Drive. Si cambias de computador, formateas el equipo o simplemente quieres usar la app en otro dispositivo, tus notas te esperan en la nube.
+      </div>
+      <div class="drive-steps">
+        <div class="drive-step">
+          <div class="drive-step-num">1</div>
+          <div>Ve a <strong>Configuración → Respaldo en Drive</strong> y conéctate con tu cuenta Google.</div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">2</div>
+          <div>Haz clic en <strong>Guardar en Drive</strong> cada vez que quieras dejar una copia. La app también puede recordártelo.</div>
+        </div>
+        <div class="drive-step">
+          <div class="drive-step-num">3</div>
+          <div>Para restaurar desde otro dispositivo: entra a la app, ve a <strong>Configuración → Restaurar desde Drive</strong> y confirma. Listo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Datos seguros -->
+  <div class="section">
+    <div class="section-label">Privacidad</div>
+    <p class="section-title">¿Dónde se guardan mis datos?</p>
+    <div class="tips">
+      <div class="tip-row">
+        <span class="tip-icon">🔒</span>
+        <span>Tus notas <strong>no se suben a ningún servidor</strong>. Se guardan localmente en el navegador del computador o celular que usas.</span>
+      </div>
+      <div class="tip-row">
+        <span class="tip-icon">☁️</span>
+        <span>El respaldo en Drive lo manejas tú. Se guarda en <strong>tu propia cuenta de Google</strong>, no en ningún servidor externo de la app.</span>
+      </div>
+      <div class="tip-row">
+        <span class="tip-icon">🙅</span>
+        <span>No hay registro de usuarios, no hay contraseñas, no hay empresa que acceda a tus datos. Solo tú tienes acceso.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="ftr">
+    <div class="ftr-text">
+      ¿Tienes alguna duda?<br>
+      <strong>Escríbeme y te ayudo de inmediato.</strong>
+    </div>
+    <a class="ftr-wa" href="https://wa.me/56982857408" target="_blank">
+      💬 WhatsApp
+    </a>
+  </div>
+
+</div>
+</body>
+</html>

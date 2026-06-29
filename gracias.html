@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Gracias por tu compra! — Libro Digital de Notas</title>
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Crimson+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: #f0ece0; color: #1a1208;
+      min-height: 100vh; padding: 32px 20px 60px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card {
+      max-width: 520px; width: 100%;
+      background: #fff; border-radius: 18px;
+      overflow: hidden; box-shadow: 0 8px 48px rgba(0,0,0,0.12);
+      text-align: center;
+    }
+    .hdr {
+      background: #1b2a48; padding: 44px 36px 36px;
+      position: relative; overflow: hidden;
+    }
+    .hdr::after {
+      content: ''; position: absolute; bottom: -50px; right: -50px;
+      width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .hdr-check { font-size: 2.6rem; margin-bottom: 14px; }
+    .hdr-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2rem; font-weight: 700; color: #fff;
+      line-height: 1.15; margin-bottom: 8px;
+    }
+    .hdr-sub { font-size: 0.95rem; color: rgba(255,255,255,0.55); font-weight: 300; }
+    .body { padding: 36px 36px 40px; }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start; text-align: left;
+      margin-bottom: 22px;
+    }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #1b2a48; color: #fff; font-size: 0.75rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+    }
+    .step-text { font-size: 0.95rem; color: #2c2c2c; line-height: 1.55; }
+    .step-text strong { color: #1b2a48; }
+    .cta {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: #25D366; color: #fff; text-decoration: none;
+      padding: 16px; border-radius: 12px;
+      font-size: 1.02rem; font-weight: 700;
+      margin-top: 8px; transition: background .15s, transform .1s;
+    }
+    .cta:hover { background: #1fb855; transform: translateY(-1px); }
+    .hint { font-size: 0.8rem; color: #999; margin-top: 16px; }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <div class="hdr">
+    <div class="hdr-check">✅</div>
+    <h1 class="hdr-title">¡Gracias por tu compra!</h1>
+    <p class="hdr-sub">Libro Digital de Notas · Año escolar 2026</p>
+  </div>
+
+  <div class="body">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Tu pago quedó registrado en Mercado Pago.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Escríbenos por WhatsApp con tu <strong>nombre y colegio</strong> para que te enviemos tu código de acceso personal.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Ese mismo número queda disponible para cualquier duda o ayuda mientras uses la app.</div>
+    </div>
+
+    <a class="cta" href="https://wa.me/56982857408?text=Hola%2C%20acabo%20de%20comprar%20el%20Libro%20Digital%20de%20Notas.%20Mi%20nombre%20es%3A%20" target="_blank">
+      💬 Escribir por WhatsApp ahora
+    </a>
+    <p class="hint">Solemos responder en minutos durante horario hábil.</p>
+  </div>
+
+</div>
+</body>
+</html>

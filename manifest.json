@@ -1,0 +1,15 @@
+{
+  "name": "Libro Digital de Notas",
+  "short_name": "Libro Notas",
+  "description": "Gestión de calificaciones para docentes chilenos",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fdf8f0",
+  "theme_color": "#1e3a5f",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "es-CL"
+}

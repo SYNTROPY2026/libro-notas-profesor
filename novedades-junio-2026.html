@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novedades — Libro Digital de Notas · Junio 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Crimson+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: #f5f0e8;
+      color: #2c2c2c;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    }
+
+    /* ── Header ── */
+    .header {
+      background: #1e3a5f;
+      padding: 48px 52px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; right: -30px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .header-tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.85);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 18px;
+    }
+    .header h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .header p {
+      color: rgba(255,255,255,0.75);
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 480px;
+    }
+    .header-link {
+      display: inline-block;
+      margin-top: 20px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Body ── */
+    .body { padding: 48px 52px; }
+
+    .intro {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* ── Feature card ── */
+    .feature {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #eee;
+    }
+    .feature:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .feature-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .feature-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: #eef2f7;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .feature-meta { flex: 1; }
+    .feature-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1e3a5f;
+      background: #eef2f7;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+    .feature-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      line-height: 1.2;
+    }
+
+    .feature-desc {
+      font-size: 0.97rem;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .steps {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .steps-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #999;
+      margin-bottom: 12px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .step:last-child { margin-bottom: 0; }
+    .step-num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #1e3a5f;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text {
+      font-size: 0.93rem;
+      color: #444;
+      line-height: 1.55;
+    }
+    .step-text strong { color: #1e3a5f; font-weight: 600; }
+
+    .tip {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: #fff8e6;
+      border: 1px solid #f5d87a;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 12px;
+      font-size: 0.88rem;
+      color: #7a5c00;
+      line-height: 1.5;
+    }
+    .tip-icon { flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+
+    /* ── Footer ── */
+    .footer {
+      background: #1e3a5f;
+      padding: 28px 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .footer-text {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .footer-text strong { color: #fff; }
+    .footer-badge {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.9);
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .page { box-shadow: none; border-radius: 0; max-width: 100%; }
+      .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .feature-icon { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .step-num { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .tip { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-tag">Junio 2026 · Novedades</div>
+    <h1>Nuevas funciones en<br>tu Libro Digital</h1>
+    <p>Te presentamos las últimas mejoras que llegaron a tu app. Todas ya están disponibles en el mismo link de siempre.</p>
+    <a class="header-link" href="https://syntropy2026.github.io/libro-notas-profesor/" target="_blank">
+      🔗 syntropy2026.github.io/libro-notas-profesor
+    </a>
+  </div>
+
+  <!-- Body -->
+  <div class="body">
+
+    <p class="intro">
+      Durante las últimas semanas se trabajó en varias mejoras pensadas para hacer la app más cómoda, segura y personalizable. A continuación encontrarás cada novedad con instrucciones paso a paso.
+    </p>
+
+    <!-- Recordatorios -->
+    <div class="feature">
+      <div class="feature-header">
+        <div class="feature-icon">🔔</div>
+        <div class="feature-meta">
+          <div class="feature-badge">Función nueva</div>
+          <div class="feature-title">Recordatorios</div>
+        </div>
+      </div>
+      <p class="feature-desc">
+        Puedes crear recordatorios dentro de la app para no olvidar nada importante: reuniones, entregas de notas, plazos de calificaciones, etc. Cada vez que abras la app, te avisará si tienes pendientes.
+      </p>
+      <div class="steps">
+        <div class="steps-title">Cómo usarlo</div>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">En el menú lateral, haz clic en <strong>"Recordatorios"</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Presiona <strong>"+ Nuevo recordatorio"</strong> y escribe el texto</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Opcionalmente, asocia el recordatorio a un curso específico</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Márcalo como completado o elimínalo cuando ya no lo necesites</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Drive -->
+    <div class="feature">
+      <div class="feature-header">
+        <div class="feature-icon">💾</div>
+        <div class="feature-meta">
+          <div class="feature-badge">Seguridad</div>
+          <div class="feature-title">Respaldo en Google Drive</div>
+        </div>
+      </div>
+      <p class="feature-desc">
+        Tus datos se guardan en el navegador, lo que significa que si borras el historial podrías perderlos. Ahora puedes conectar tu cuenta de Google para guardar un respaldo seguro en Drive con un solo clic.
+      </p>
+      <div class="steps">
+        <div class="steps-title">Cómo usarlo</div>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">En la parte inferior del menú lateral, haz clic en <strong>"Conectar Google Drive"</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Inicia sesión con tu cuenta de Google y autoriza el acceso</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Usa <strong>"Crear respaldo"</strong> para guardar tus datos</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Si alguna vez necesitas recuperar tus datos, usa <strong>"Restaurar"</strong></div>
+        </div>
+      </div>
+      <div class="tip">
+        <span class="tip-icon">⚠️</span>
+        <span>Se recomienda crear un respaldo al menos una vez por semana, especialmente antes de vacaciones o fin de semestre.</span>
+      </div>
+    </div>
+
+    <!-- Logo editable -->
+    <div class="feature">
+      <div class="feature-header">
+        <div class="feature-icon">🏫</div>
+        <div class="feature-meta">
+          <div class="feature-badge">Personalización</div>
+          <div class="feature-title">Logo y nombre del colegio</div>
+        </div>
+      </div>
+      <p class="feature-desc">
+        El logo y el nombre del colegio que aparecen en el menú lateral ahora los puedes personalizar con los de tu establecimiento.
+      </p>
+      <div class="steps">
+        <div class="steps-title">Cómo usarlo</div>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Haz clic en el logo o nombre del colegio en la parte inferior del menú lateral</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Cambia el <strong>nombre del colegio</strong> y la <strong>ciudad</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Sube tu propio logo desde el computador (JPG o PNG, máximo 1 MB)</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Guarda los cambios</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gestionar Clases -->
+    <div class="feature">
+      <div class="feature-header">
+        <div class="feature-icon">⚙️</div>
+        <div class="feature-meta">
+          <div class="feature-badge">Función nueva</div>
+          <div class="feature-title">Gestionar tus cursos y asignaturas</div>
+        </div>
+      </div>
+      <p class="feature-desc">
+        Ya no tienes los cursos fijos — puedes crear, editar y eliminar tus propios cursos y asignaturas directamente desde la app, sin depender de nadie.
+      </p>
+      <div class="steps">
+        <div class="steps-title">Cómo usarlo</div>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">En el menú lateral, haz clic en <strong>"Gestionar clases"</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Usa <strong>"+ Nueva clase"</strong> para agregar un curso nuevo</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Dentro de cada curso puedes agregar las asignaturas que necesites</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Haz clic en el nombre del curso para ir directamente a sus notas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Importar alumnos -->
+    <div class="feature">
+      <div class="feature-header">
+        <div class="feature-icon">📥</div>
+        <div class="feature-meta">
+          <div class="feature-badge">Mejora</div>
+          <div class="feature-title">Importar alumnos con vista previa</div>
+        </div>
+      </div>
+      <p class="feature-desc">
+        Al importar alumnos desde Excel, ahora puedes ver exactamente qué se va a agregar antes de confirmar, y desmarcar a cualquier alumno que no quieras incluir.
+      </p>
+      <div class="steps">
+        <div class="steps-title">Cómo usarlo</div>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Entra a un curso y una asignatura, y haz clic en <strong>"Importar"</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Copia la lista de alumnos desde Excel y pégala en el cuadro</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Revisa la vista previa y desmarca los alumnos que no quieras agregar</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Confirma y los alumnos se agregan al curso</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-text">
+      Cualquier duda o problema, avísame.<br>
+      <strong>El link sigue siendo el mismo de siempre.</strong>
+    </div>
+    <div class="footer-badge">Junio 2026</div>
+  </div>
+
+</div>
+</body>
+</html>

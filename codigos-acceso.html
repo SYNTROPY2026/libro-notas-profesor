@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Códigos — Libro Digital de Notas</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f4f1eb; color: #1a1208;
+      min-height: 100vh; padding: 32px 20px 60px;
+      font-size: 14px;
+    }
+    .page { max-width: 760px; margin: 0 auto; }
+
+    header {
+      background: #1b2a48; color: #fff;
+      border-radius: 12px; padding: 24px 28px; margin-bottom: 24px;
+    }
+    header h1 { font-size: 1.3rem; font-weight: 700; margin-bottom: 3px; }
+    header p  { font-size: 0.82rem; color: rgba(255,255,255,0.6); }
+
+    .note {
+      background: #fff8e1; border: 1px solid #ffe082;
+      border-radius: 10px; padding: 14px 18px; margin-bottom: 24px;
+      font-size: 0.85rem; color: #6a4f00; line-height: 1.6;
+    }
+    .note strong { color: #4a3700; }
+    .note a { color: #1b2a48; font-weight: 600; }
+
+    .card {
+      background: #fff; border-radius: 12px; padding: 22px 26px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 20px;
+    }
+    .card h2 { font-size: 1rem; font-weight: 700; color: #1b2a48; margin-bottom: 12px; }
+
+    .gen-row { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .gen-row label { font-size: 0.85rem; color: #555; }
+    .gen-row input {
+      width: 64px; padding: 7px 10px;
+      border: 1px solid #cebf98; border-radius: 7px;
+      font-size: 0.88rem; text-align: center;
+    }
+    .btn {
+      padding: 9px 18px; border-radius: 7px; font-size: 0.85rem;
+      font-weight: 600; cursor: pointer; border: none; transition: background .15s;
+    }
+    .btn-gen { background: #1b2a48; color: #fff; }
+    .btn-gen:hover { background: #2f4e7c; }
+    .btn-copy {
+      background: #fff; color: #1b2a48; border: 1.5px solid #1b2a48;
+      font-size: 0.78rem; padding: 6px 14px;
+    }
+    .btn-copy:hover { background: #f0ebe0; }
+    .btn-copy.copied { color: #1b5e20; border-color: #1b5e20; }
+
+    .codes-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .code-chip {
+      font-family: 'Courier New', monospace; font-size: 0.95rem; font-weight: 700;
+      color: #1b2a48; background: #f8f5ee; border: 1px solid #e8e0d0;
+      border-radius: 7px; padding: 8px 14px; letter-spacing: .04em;
+    }
+    .empty-hint { font-size: 0.85rem; color: #999; font-style: italic; }
+
+    pre.sql {
+      background: #1b2a48; color: #cfe0ff;
+      border-radius: 8px; padding: 14px 16px;
+      font-size: 0.8rem; line-height: 1.6; overflow-x: auto;
+      margin-bottom: 10px; white-space: pre-wrap; word-break: break-all;
+    }
+
+    .steps { font-size: 0.85rem; color: #555; line-height: 1.7; }
+    .steps a { color: #1b2a48; font-weight: 600; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1>📒 Generador de Códigos</h1>
+    <p>Libro Digital de Notas · Año escolar 2026</p>
+  </header>
+
+  <div class="note">
+    <strong>Cómo funciona ahora:</strong> los códigos viven en Supabase, no en el código fuente de la app.
+    Esta página solo te ayuda a generar códigos nuevos con el formato correcto y el SQL para insertarlos.
+    Para ver o cambiar el estado de un código existente (disponible, enviado, activo, revocado), usa el
+    <strong>Table Editor</strong> de tu proyecto en <a href="https://supabase.com/dashboard" target="_blank">supabase.com/dashboard</a> → tabla <code>codigos_acceso</code>.
+  </div>
+
+  <div class="card">
+    <h2>Generar códigos nuevos</h2>
+    <div class="gen-row">
+      <label for="qty">Cantidad:</label>
+      <input id="qty" type="number" min="1" max="50" value="1">
+      <button class="btn btn-gen" onclick="generar()">Generar →</button>
+    </div>
+    <div class="codes-list" id="codes-list">
+      <div class="empty-hint">Aún no has generado códigos en esta sesión.</div>
+    </div>
+  </div>
+
+  <div class="card" id="sql-card" style="display:none">
+    <h2>SQL para pegar en Supabase</h2>
+    <pre class="sql" id="sql-output"></pre>
+    <button class="btn btn-copy" id="copy-btn" onclick="copiarSQL()">Copiar SQL</button>
+    <div class="steps" style="margin-top:14px">
+      1. Abre tu proyecto en <a href="https://supabase.com/dashboard" target="_blank">supabase.com/dashboard</a><br>
+      2. Ve a <strong>SQL Editor</strong> → pega el bloque de arriba → <strong>Run</strong><br>
+      3. Los códigos quedan disponibles de inmediato para activarse en la app
+    </div>
+  </div>
+
+</div>
+
+<script>
+const CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // sin 0/O/1/I para evitar confusiones al transcribir
+let generados = [];
+
+function randomSuffix() {
+  let s = '';
+  for (let i = 0; i < 5; i++) s += CHARS[Math.floor(Math.random() * CHARS.length)];
+  return s;
+}
+
+function generar() {
+  const qty = Math.min(50, Math.max(1, parseInt(document.getElementById('qty').value) || 1));
+  generados = [];
+  for (let i = 0; i < qty; i++) generados.push(`LIBRO-2026-${randomSuffix()}`);
+
+  document.getElementById('codes-list').innerHTML =
+    generados.map(c => `<div class="code-chip">${c}</div>`).join('');
+
+  const values = generados.map(c => `  ('${c}')`).join(',\n');
+  document.getElementById('sql-output').textContent =
+    `insert into codigos_acceso (codigo) values\n${values};`;
+  document.getElementById('sql-card').style.display = 'block';
+}
+
+function copiarSQL() {
+  navigator.clipboard.writeText(document.getElementById('sql-output').textContent).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar SQL'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro Digital de Notas — Acceso a tu cuenta</title>
+  <meta name="description" content="Libro Digital de Notas para profesores de educación básica y media en Chile. Gestiona calificaciones, asistencia y observaciones de tus alumnos.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Libro Digital de Notas — Gestión de Calificaciones para Docentes">
+  <meta property="og:description" content="Herramienta simple y rápida para registrar notas, asistencia y observaciones. Diseñada para profesores chilenos de educación básica y media.">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter/X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Libro Digital de Notas — Para Docentes Chilenos">
+  <meta name="twitter:description" content="Gestiona calificaciones, asistencia y observaciones de tus alumnos. Para profesores de educación básica y media, desde $24.990 CLP al año.">
+  <meta name="twitter:image" content="https://syntropy2026.github.io/libro-notas-profesor/og-image.png">
+
+  <link rel="canonical" href="https://syntropy2026.github.io/libro-notas-profesor/">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📒</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📒</text></svg>">
+  <meta name="theme-color" content="#1e3a5f">
+  <meta property="og:url" content="https://syntropy2026.github.io/libro-notas-profesor/">
+  <meta property="og:image" content="https://syntropy2026.github.io/libro-notas-profesor/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="styles.css?v=25">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Libro Digital de Notas",
+    "description": "Herramienta de gestión de calificaciones para docentes chilenos de educación básica y media",
+    "url": "https://syntropy2026.github.io/libro-notas-profesor/",
+    "applicationCategory": "EducationApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "24990", "priceCurrency": "CLP" }
+  }
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="modal-backdrop" class="modal-backdrop hidden"></div>
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="https://accounts.google.com/gsi/client" async></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <script src="app.js?v=25" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+    }
+  </script>
+  <noscript>
+    <style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#fdf8f0}</style>
+    <div style="text-align:center;padding:40px;max-width:480px;margin:auto">
+      <h1 style="color:#1e3a5f;font-size:1.5rem">Libro Digital de Notas</h1>
+      <p style="color:#555">Esta aplicación requiere JavaScript para funcionar. Por favor activa JavaScript en tu navegador.</p>
+    </div>
+  </noscript>
+</body>
+</html>

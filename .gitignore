@@ -1,0 +1,5 @@
+# Nunca subir el schema/seed de Supabase a este repo público —
+# seed.sql tiene los códigos de acceso reales en texto plano.
+supabase/
+.seo-report/
+CLAUDE.md

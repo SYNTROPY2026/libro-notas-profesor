@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /codigos-acceso.html
+Disallow: /propuesta-demo.html
+Disallow: /novedades-junio-2026.html
+Disallow: /guia-inicio.html
+Disallow: /gracias.html
+Disallow: /supabase/
+
+Sitemap: https://syntropy2026.github.io/libro-notas-profesor/sitemap.xml
