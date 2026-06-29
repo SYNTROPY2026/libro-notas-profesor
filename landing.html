@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Libro Digital de Notas | Gestión de Notas para Profesores</title>
-  <meta name="description" content="Gestiona calificaciones, alumnos y cursos desde cualquier dispositivo, sin Excel ni complicaciones. Por solo $24.990 CLP al año escolar completo.">
+  <meta name="description" content="Gestiona calificaciones, alumnos y cursos desde cualquier dispositivo, sin Excel ni complicaciones. Por solo $24.990 CLP, 12 meses de acceso completo.">
   <link rel="canonical" href="https://syntropy2026.github.io/libro-notas-profesor/landing.html">
 
   <meta property="og:title" content="Libro Digital de Notas — Para Profesores Chilenos">
-  <meta property="og:description" content="Gestiona calificaciones, alumnos y cursos desde cualquier dispositivo, sin Excel ni complicaciones. Por solo $24.990 CLP al año escolar.">
+  <meta property="og:description" content="Gestiona calificaciones, alumnos y cursos desde cualquier dispositivo, sin Excel ni complicaciones. Por solo $24.990 CLP, 12 meses de acceso.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://syntropy2026.github.io/libro-notas-profesor/landing.html">
   <meta property="og:image" content="https://syntropy2026.github.io/libro-notas-profesor/og-image.png">
@@ -68,11 +68,6 @@
       flex-wrap: wrap;
     }
     .urgency-bar span { opacity: 0.9; font-weight: 400; }
-    #countdown {
-      background: rgba(0,0,0,0.15);
-      padding: 3px 12px; border-radius: 99px;
-      font-size: 0.8rem; letter-spacing: 0.04em;
-    }
 
     /* ── NAV ── */
     nav {
@@ -595,9 +590,7 @@
 
 <!-- ── URGENCY BAR ── -->
 <div class="urgency-bar">
-  🗓 Año escolar 2026 · Precio especial $24.990 CLP
-  <span>·</span>
-  <span id="countdown">calculando...</span>
+  🗓 $24.990 CLP · 12 meses de acceso completo desde que activas tu cuenta
 </div>
 
 <!-- ── NAV ── -->
@@ -622,7 +615,7 @@
       </div>
       <h1>Deja de perder tiempo<br>en <em>planillas de Excel</em></h1>
       <p class="hero-sub">Registra notas, importa alumnos y gestiona tus cursos desde cualquier dispositivo — sin instalar nada, sin perder un dato.</p>
-      <p class="hero-price-hint">Solo <strong>$24.990 CLP</strong> por año escolar completo.</p>
+      <p class="hero-price-hint">Solo <strong>$24.990 CLP</strong> por 12 meses de acceso completo.</p>
       <div class="hero-actions">
         <a href="https://link.mercadopago.cl/libronotasdigital" class="btn-primary">Comenzar ahora →</a>
         <a href="#features" class="btn-ghost">Ver funciones</a>
@@ -661,7 +654,7 @@
 <!-- ── TRUST BAR ── -->
 <div class="trust">
   <div class="trust-inner">
-    <div class="trust-item"><span class="ti">✓</span> $24.990 CLP / año escolar</div>
+    <div class="trust-item"><span class="ti">✓</span> $24.990 CLP / 12 meses</div>
     <div class="trust-item"><span class="ti">✓</span> Sin registro obligatorio</div>
     <div class="trust-item"><span class="ti">✓</span> Funciona sin internet</div>
     <div class="trust-item"><span class="ti">✓</span> Datos 100% privados</div>
@@ -864,11 +857,11 @@
   </div>
   <div class="pricing-inner">
     <div class="pricing-card">
-      <div class="pricing-badge">Año escolar 2026</div>
+      <div class="pricing-badge">Plan único</div>
       <div class="pricing-plan">Plan Docente · Todo incluido</div>
       <div class="pricing-price"><sup>$</sup>24.990</div>
-      <div class="pricing-period">CLP · por año escolar (marzo–diciembre)</div>
-      <div class="pricing-coffee">☕ Menos que <strong>un café a la semana</strong> — $625 por semana de clases</div>
+      <div class="pricing-period">CLP · 12 meses desde que activas tu cuenta</div>
+      <div class="pricing-coffee">☕ Menos que <strong>un café a la semana</strong> — $480 por semana</div>
       <ul class="pricing-feats">
         <li>Cursos y asignaturas ilimitados</li>
         <li>Importación desde Excel con vista previa</li>
@@ -921,8 +914,8 @@
       <div class="faq-a">Pagas directo y seguro con Mercado Pago (tarjeta, transferencia o saldo en cuenta). Apenas se confirma el pago, escríbenos por WhatsApp con tu nombre y colegio y te enviamos tu código de acceso personal de inmediato.</div>
     </div>
     <div class="faq-item">
-      <button class="faq-q">¿Qué pasa cuando termina el año escolar? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Tus datos no desaparecen. Puedes exportar todo en un archivo de respaldo para guardarlo como historial. Al año siguiente puedes renovar por otro año escolar con el mismo precio o con descuento por fidelidad.</div>
+      <button class="faq-q">¿Qué pasa cuando se cumplen los 12 meses? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Tus datos no desaparecen. Puedes seguir usando la app y exportar todo en un archivo de respaldo para guardarlo como historial. Te avisamos dentro de la app cuando se acerque la fecha, y puedes renovar por otros 12 meses con el mismo precio o con descuento por fidelidad.</div>
     </div>
   </div>
 </section>
@@ -957,25 +950,12 @@
 <div class="mobile-sticky" id="mobile-sticky">
   <div class="mobile-sticky-price">
     <strong>$24.990 CLP</strong>
-    por año escolar
+    por 12 meses
   </div>
   <a href="https://link.mercadopago.cl/libronotasdigital" class="mobile-sticky-btn">Comenzar ahora →</a>
 </div>
 
 <script>
-  // ── Countdown hasta fin del año escolar (diciembre 2026) ──
-  function updateCountdown() {
-    const end = new Date('2026-12-15T00:00:00');
-    const now = new Date();
-    const diff = end - now;
-    if (diff <= 0) { document.getElementById('countdown').textContent = 'Año escolar en curso'; return; }
-    const weeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
-    const days  = Math.floor((diff % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
-    document.getElementById('countdown').textContent = `⏳ ${weeks} semanas y ${days} días de clases`;
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 60000);
-
   // ── Lightbox de capturas ──
   const lightbox    = document.getElementById('demo-lightbox');
   const lightboxImg = document.getElementById('demo-lightbox-img');

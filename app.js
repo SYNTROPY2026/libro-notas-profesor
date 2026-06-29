@@ -2624,26 +2624,31 @@ class GradeBook {
   }
 
   _renderRenewalBanner() {
-    const match = (this.state.activationCode || '').match(/LIBRO-(\d{4})-/);
-    if (!match) return '';
-    const year = parseInt(match[1], 10);
+    // Sin fecha de activación registrada (cuentas activadas antes de este
+    // cambio) no podemos calcular el vencimiento — no mostramos nada en
+    // vez de adivinar.
+    if (!this.state.activatedAt) return '';
+    const activatedAt = new Date(this.state.activatedAt);
+    if (isNaN(activatedAt.getTime())) return '';
+
     const now = new Date();
-    const soonFrom = new Date(year, 11, 1);   // 1 dic — empieza el recordatorio
-    const expiredAt = new Date(year, 11, 31); // 31 dic — año escolar terminado
+    const expiredAt = new Date(activatedAt); expiredAt.setDate(expiredAt.getDate() + 365);
+    const soonFrom  = new Date(expiredAt);   soonFrom.setDate(soonFrom.getDate() - 30);
     if (now < soonFrom) return '';
 
-    const waText = encodeURIComponent(`Hola, quiero renovar mi Libro Digital de Notas para el próximo año escolar. Mi código actual es: ${this.state.activationCode}`);
+    const fechaVence = expiredAt.toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
+    const waText = encodeURIComponent(`Hola, quiero renovar mi Libro Digital de Notas. Mi código actual es: ${this.state.activationCode}`);
     const waLink = `https://wa.me/56982857408?text=${waText}`;
 
     if (now > expiredAt) {
       return `<div class="renewal-banner" id="renewal-banner">
-        <span class="renewal-banner-msg">📅 Tu acceso del año escolar ${year} ya terminó. Puedes seguir usando la app, pero te recomendamos renovar para el próximo año.</span>
+        <span class="renewal-banner-msg">📅 Tu acceso anual venció el ${fechaVence}. Puedes seguir usando la app, pero te recomendamos renovar.</span>
         <a href="${waLink}" target="_blank" class="renewal-banner-btn">Renovar por WhatsApp</a>
         <button class="renewal-banner-close" data-action="dismiss-renewal-banner" title="Cerrar">×</button>
       </div>`;
     }
     return `<div class="renewal-banner" id="renewal-banner">
-      <span class="renewal-banner-msg">📅 Tu acceso del año escolar ${year} está por terminar.</span>
+      <span class="renewal-banner-msg">📅 Tu acceso anual vence el ${fechaVence}.</span>
       <a href="${waLink}" target="_blank" class="renewal-banner-btn">Renovar por WhatsApp</a>
       <button class="renewal-banner-close" data-action="dismiss-renewal-banner" title="Cerrar">×</button>
     </div>`;
@@ -3302,6 +3307,11 @@ class GradeBook {
         desc: 'Crea y configura tus propios cursos y asignaturas. Aquí comienza todo.',
       },
       {
+        target: '.sb-drive-section', position: 'right',
+        title: '☁️ No olvides tu respaldo',
+        desc: 'Tus notas viven solo en este navegador. Conecta Google Drive ahora para no arriesgar nada — si cambias de computador o se borra el historial, tus datos te esperan ahí.',
+      },
+      {
         target: null, position: 'center', isLast: true,
         title: '¡Todo listo para empezar!',
         desc: 'Comienza configurando tus cursos y luego importa tus alumnos. ¡Suerte!',
@@ -3540,8 +3550,9 @@ class GradeBook {
       return;
     }
 
-    this.state.activated     = true;
+    this.state.activated      = true;
     this.state.activationCode = code;
+    this.state.activatedAt    = result.activado_en || new Date().toISOString();
     this.save();
     this.render();
     this._startTour();
