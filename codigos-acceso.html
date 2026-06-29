@@ -175,7 +175,7 @@ async function entregarCodigo() {
     msg.className = 'deliver-msg ok';
 
     const texto = encodeURIComponent(
-      `¡Hola ${nombre}! Aquí está tu código de acceso al Libro Digital de Notas:\n\n${codigo}\n\nAbre https://syntropy2026.github.io/libro-notas-profesor/ e ingrésalo para activar tu cuenta. Cualquier duda, escríbeme por este mismo chat 😊`
+      `¡Hola ${nombre}! Aquí está tu código de acceso al Libro Digital de Notas:\n\n${codigo}\n\nAbre https://syntropy2026.github.io/libro-notas-profesor/ e ingrésalo para activar tu cuenta.\n\nGuía rápida de inicio (recomendamos leerla antes de partir): https://syntropy2026.github.io/libro-notas-profesor/guia-inicio.html\n\nCualquier duda, escríbeme por este mismo chat 😊`
     );
     window.open(`https://wa.me/${telefono}?text=${texto}`, '_blank');
 
