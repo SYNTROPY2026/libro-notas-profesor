@@ -84,6 +84,23 @@
     .deliver-msg { font-size: 0.85rem; margin-top: 10px; }
     .deliver-msg.error { color: #c0392b; }
     .deliver-msg.ok { color: #1b5e20; }
+
+    .vencer-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 6px; }
+    .vencer-item {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 10px 12px; border: 1px solid #e8e0d0; border-radius: 8px;
+      background: #fdfaf3;
+    }
+    .vencer-info { font-size: 0.85rem; }
+    .vencer-name { font-weight: 700; color: #1b2a48; }
+    .vencer-meta { color: #888; font-size: 0.78rem; }
+    .vencer-days { font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+    .vencer-days.soon { background: #fce4ec; color: #b71c1c; }
+    .vencer-days.ok { background: #fff8e1; color: #6a4f00; }
+    .btn-wa-rec {
+      background: #25D366; color: #fff; font-size: 0.78rem;
+      padding: 6px 12px; border-radius: 6px; white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -119,6 +136,15 @@
       <button class="btn btn-gen" onclick="marcarPrueba()">Marcar como prueba</button>
     </div>
     <div class="deliver-msg" id="prueba-msg"></div>
+  </div>
+
+  <div class="card">
+    <h2>Próximos a vencer (45 días)</h2>
+    <div class="deliver-row">
+      <button class="btn btn-gen" onclick="verProximosAVencer()">Ver lista →</button>
+    </div>
+    <div class="vencer-row" id="vencer-list"></div>
+    <div class="deliver-msg" id="vencer-msg"></div>
   </div>
 
   <div class="card">
@@ -224,6 +250,41 @@ async function marcarPrueba() {
     msg.textContent = `✓ ${codigo} marcado como prueba.`;
     msg.className = 'deliver-msg ok';
     input.value = '';
+  } catch {
+    msg.textContent = 'Error de conexión con Supabase. Revisa tu internet e intenta de nuevo.';
+    msg.className = 'deliver-msg error';
+  }
+}
+
+async function verProximosAVencer() {
+  const msg  = document.getElementById('vencer-msg');
+  const list = document.getElementById('vencer-list');
+  list.innerHTML = ''; msg.textContent = ''; msg.className = 'deliver-msg';
+
+  const clave = prompt('Clave del panel:');
+  if (!clave) return;
+
+  try {
+    const { data, error } = await sb.rpc('proximos_a_vencer', { p_clave: clave });
+    if (error) throw error;
+    if (!data || data.length === 0) {
+      msg.textContent = 'Nadie vence en los próximos 45 días (o la clave es incorrecta).';
+      msg.className = 'deliver-msg';
+      return;
+    }
+    list.innerHTML = data.map(row => {
+      const vence = new Date(row.vence_en);
+      const dias  = Math.ceil((vence - new Date()) / (1000 * 60 * 60 * 24));
+      const texto = encodeURIComponent(`Hola ${row.profesor_nombre || ''}, te escribo porque tu acceso al Libro Digital de Notas vence en ${dias} días. ¿Quieres renovar por otros 12 meses?`);
+      return `<div class="vencer-item">
+        <div class="vencer-info">
+          <div class="vencer-name">${row.profesor_nombre || row.codigo}</div>
+          <div class="vencer-meta">${row.colegio || ''} · vence ${vence.toLocaleDateString('es-CL')}</div>
+        </div>
+        <span class="vencer-days ${dias <= 15 ? 'soon' : 'ok'}">${dias} días</span>
+        ${row.telefono ? `<a class="btn-wa-rec" href="https://wa.me/${row.telefono}?text=${texto}" target="_blank">Recordar →</a>` : ''}
+      </div>`;
+    }).join('');
   } catch {
     msg.textContent = 'Error de conexión con Supabase. Revisa tu internet e intenta de nuevo.';
     msg.className = 'deliver-msg error';
