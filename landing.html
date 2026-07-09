@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Libro Digital de Notas | Gestión de Notas para Profesores</title>
-  <meta name="description" content="Gestiona calificaciones, alumnos y cursos desde cualquier dispositivo, sin Excel ni complicaciones. Pago único de $49.990 CLP, acceso de por vida.">
+  <meta name="description" content="Tu propio libro de notas digital: registra calificaciones, asistencia y observaciones con seguimiento real de cada curso. Pago único de $49.990 CLP, acceso de por vida.">
   <link rel="canonical" href="https://syntropy2026.github.io/libro-notas-profesor/landing.html">
 
   <meta property="og:title" content="Libro Digital de Notas — Para Profesores Chilenos">
-  <meta property="og:description" content="Gestiona calificaciones, alumnos y cursos desde cualquier dispositivo, sin Excel ni complicaciones. Pago único de $49.990 CLP, acceso de por vida.">
+  <meta property="og:description" content="Tu propio libro de notas digital: registra calificaciones, asistencia y observaciones con seguimiento real de cada curso. Pago único de $49.990 CLP, acceso de por vida.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://syntropy2026.github.io/libro-notas-profesor/landing.html">
   <meta property="og:image" content="https://syntropy2026.github.io/libro-notas-profesor/og-image.png">
@@ -17,7 +17,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Libro Digital de Notas — Para Profesores Chilenos">
-  <meta name="twitter:description" content="Gestiona calificaciones, alumnos y cursos desde cualquier dispositivo, sin Excel ni complicaciones.">
+  <meta name="twitter:description" content="Tu propio registro de notas, asistencia y observaciones — con seguimiento real de cada curso.">
   <meta name="twitter:image" content="https://syntropy2026.github.io/libro-notas-profesor/og-image.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -299,6 +299,13 @@
       display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
     }
     .demo-grid .demo-shot:first-child { grid-column: 1 / -1; }
+    .demo-video-wrap {
+      max-width: 900px; margin: 0 auto 32px;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(30,58,95,0.10);
+    }
+    .demo-video { width: 100%; display: block; background: #000; }
     .demo-shot {
       background: #fff; border: 1px solid var(--border);
       border-radius: 14px; overflow: hidden;
@@ -588,7 +595,7 @@
       .cta-final h2 { font-size: 2rem; }
       footer { padding: 20px 20px 90px; }
       .wa-float { bottom: 100px; width: 48px; height: 48px; font-size: 1.4rem; }
-      .mobile-sticky { display: flex; }
+      .mobile-sticky.show { display: flex; }
     }
   </style>
 </head>
@@ -620,7 +627,7 @@
         Pago único · Acceso de por vida · Sin mensualidades
       </div>
       <h1>Deja de perder tiempo<br>en <em>planillas de Excel</em></h1>
-      <p class="hero-sub">Registra notas, importa alumnos y gestiona tus cursos desde cualquier dispositivo — sin instalar nada, sin perder un dato.</p>
+      <p class="hero-sub">Registra notas, asistencia y observaciones en tu propio libro digital — con seguimiento real de cada alumno y una vista general de todos tus cursos.</p>
       <p class="hero-price-hint"><strong>$49.990 CLP, pago único — de por vida.</strong> Sin mensualidades, sin renovaciones.</p>
       <div class="hero-actions">
         <a href="https://link.mercadopago.cl/libronotasdigital" class="btn-primary">Comenzar ahora →</a>
@@ -689,7 +696,7 @@
       <tbody>
         <tr>
           <td>Precio</td>
-          <td>Gratis (pero te roba tiempo)</td>
+          <td>Sin costo, pero te quita horas cada semana</td>
           <td>Impuesta por el colegio</td>
           <td class="col-highlight">$49.990 · pago único, de por vida</td>
         </tr>
@@ -797,6 +804,11 @@
     <h2 class="section-title">Así se ve la app de verdad</h2>
     <p class="section-sub">Sin maquetas — esto es la aplicación real, con datos de ejemplo.</p>
   </div>
+  <div class="demo-video-wrap">
+    <video class="demo-video" controls playsinline preload="metadata" poster="demo-video-poster.jpg">
+      <source src="demo-video.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="demo-grid">
     <figure class="demo-shot">
       <img src="demo-notas.png" alt="Tabla de notas con promedios automáticos" loading="lazy" data-lightbox>
@@ -829,7 +841,7 @@
     <div class="how-step">
       <div class="how-num">1</div>
       <div class="how-step-title">Abre el link</div>
-      <p class="how-step-desc">Desde Chrome, Safari o Edge — en el celular también funciona perfectamente.</p>
+      <p class="how-step-desc">Desde Chrome, Safari o Edge. Recomendamos el computador para crear tus cursos — el celular es útil para revisar algo puntual entre clases.</p>
     </div>
     <div class="how-step">
       <div class="how-num">2</div>
@@ -934,7 +946,7 @@
     </div>
     <div class="faq-item">
       <button class="faq-q">¿De verdad es de por vida? ¿Qué pasa con las actualizaciones? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Sí — pagas una vez y el Libro Digital de Notas queda contigo para siempre, sin mensualidades ni renovaciones para seguir usándolo. El primer año incluye además todas las mejoras y actualizaciones que vayamos lanzando. Después de ese año, las funciones que ya tienes nunca se bloquean ni desaparecen — si más adelante quieres seguir recibiendo las actualizaciones nuevas, vas a poder renovar ese beneficio por un valor bastante menor al precio original.</div>
+      <div class="faq-a">Sí — pagas una vez y el Libro Digital de Notas queda contigo para siempre, sin mensualidades ni renovaciones para seguir usándolo. El primer año incluye además todas las mejoras y actualizaciones que vayamos lanzando. Después de ese año, las funciones que ya tienes nunca se bloquean ni desaparecen — si más adelante quieres seguir recibiendo las actualizaciones nuevas, vas a poder renovar ese beneficio por <strong>$9.990 CLP al año</strong>, bastante menos que el precio original.</div>
     </div>
   </div>
 </section>
@@ -1001,7 +1013,7 @@
   const sticky = document.getElementById('mobile-sticky');
   const hero   = document.querySelector('.hero');
   const obs    = new IntersectionObserver(([e]) => {
-    sticky.style.display = e.isIntersecting ? 'none' : 'flex';
+    sticky.classList.toggle('show', !e.isIntersecting);
   }, { threshold: 0 });
   obs.observe(hero);
 </script>
