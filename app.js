@@ -13,8 +13,8 @@ const BACKUP_WARNING_DAYS = 7;
 // no en este archivo público. Reemplaza estos dos valores por los de tu proyecto
 // (Supabase Dashboard → Project Settings → API). La anon key es pública por diseño;
 // la tabla está protegida con RLS y solo se puede validar un código a la vez.
-const SUPABASE_URL      = 'https://rcfcgypqjocwmjbztiet.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_8lMX08LnPDXvzIw_DvjOYA_kmGEMbFp';
+const SUPABASE_URL      = 'https://equgieadvanypkxbkjia.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_yuF43LEIVrM8lq3PHy_2hg_Nv2ynGJo';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ── Google Drive (opcional) ────────────────────────────────────────────────────
