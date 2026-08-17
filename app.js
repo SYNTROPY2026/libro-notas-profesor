@@ -2638,7 +2638,7 @@ class GradeBook {
 
     const fechaVence = expiredAt.toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
     const waText = encodeURIComponent(`Hola, mi año de actualizaciones del Libro Digital de Notas está por terminar. Quiero renovarlo. Mi código actual es: ${this.state.activationCode}`);
-    const waLink = `https://wa.me/56982857408?text=${waText}`;
+    const waLink = `https://wa.me/56951439230?text=${waText}`;
 
     if (now > expiredAt) {
       return `<div class="renewal-banner" id="renewal-banner">
@@ -3495,7 +3495,7 @@ class GradeBook {
           <div id="act-error" class="act-error"></div>
           <p class="act-contact">
             ¿No tienes código?
-            <a href="https://wa.me/56982857408?text=Hola%2C%20quiero%20obtener%20el%20Libro%20Digital%20de%20Notas"
+            <a href="https://wa.me/56951439230?text=Hola%2C%20quiero%20obtener%20el%20Libro%20Digital%20de%20Notas"
                target="_blank" class="act-wa">Escríbenos por WhatsApp →</a>
           </p>
         </div>
