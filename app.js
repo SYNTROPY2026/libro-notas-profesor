@@ -794,6 +794,9 @@ class GradeBook {
       <div class="topbar">
         <div class="breadcrumb"><span class="bc-overview">Vista General — ${this._esc(year)}</span></div>
         <div class="topbar-actions">
+          <button class="btn-add btn-add-secondary" data-action="export-informe-colegio" title="Exporta todas tus notas en una tabla lista para copiar y pegar en Napsis, SIGE u otro sistema del colegio">
+            ${this._icon('download')} Exportar para el colegio
+          </button>
           <button class="btn-add btn-add-secondary" data-action="print-report-overview">
             ${this._icon('print')} Imprimir informe
           </button>
@@ -1087,6 +1090,9 @@ class GradeBook {
 
     } else if (a === 'export-obs') {
       this._exportObsCSV();
+
+    } else if (a === 'export-informe-colegio') {
+      this._exportInformeColegio();
 
     } else if (a === 'export-backup') {
       this._exportBackup();
@@ -1647,6 +1653,66 @@ class GradeBook {
     a.click();
     URL.revokeObjectURL(url);
     this.toast('Exportado como CSV ✓');
+  }
+
+  /**
+   * Exporta TODAS las notas (todos los cursos y asignaturas) en formato
+   * "tabla larga" — una fila por cada nota individual, más los promedios
+   * semestrales y final por alumno/asignatura. Esta es la forma en que
+   * prácticamente cualquier sistema de notas (Napsis, SIGE, etc.) organiza
+   * el dato al final: un alumno, una asignatura, una evaluación, una nota.
+   * No es un importador directo a ningún sistema específico — solo deja
+   * los datos ordenados para copiar y pegar, en vez de transcribir nota
+   * por nota a mano.
+   */
+  _exportInformeColegio() {
+    const { courses, subjects, year } = this.state;
+    const esc  = v => `"${String(v).replace(/"/g,'""')}"`;
+    const header = ['Curso','Asignatura','Alumno','Semestre','Evaluación','Nota'].map(esc).join(',');
+    const rows = [];
+
+    courses.forEach(course => {
+      const students = this.state.students[course.id] || [];
+      if (!students.length) return;
+
+      this._courseSubjects(course.id).forEach(sId => {
+        const subject = subjects.find(s => s.id === sId);
+        const evs     = this.state.evaluations[course.id]?.[sId];
+        if (!subject || !evs) return;
+
+        students.forEach(st => {
+          ['s1', 's2'].forEach(sem => {
+            (evs[sem] || []).forEach(evName => {
+              const val = this.state.grades[course.id]?.[sId]?.[st.id]?.[sem]?.[evName];
+              if (val === undefined || val === null || val === '') return;
+              rows.push([
+                esc(course.name), esc(subject.name), esc(st.name),
+                esc(sem === 's1' ? 'Semestre 1' : 'Semestre 2'), esc(evName), esc(val),
+              ].join(','));
+            });
+          });
+
+          const s1Avg = this.semAvg(course.id, sId, st.id, 's1');
+          const s2Avg = this.semAvg(course.id, sId, st.id, 's2');
+          const final = this.finalAvg(course.id, sId, st.id);
+          if (s1Avg !== null) rows.push([esc(course.name), esc(subject.name), esc(st.name), esc('Semestre 1'), esc('Promedio semestral'), esc(this.fmtAvg(s1Avg))].join(','));
+          if (s2Avg !== null) rows.push([esc(course.name), esc(subject.name), esc(st.name), esc('Semestre 2'), esc('Promedio semestral'), esc(this.fmtAvg(s2Avg))].join(','));
+          if (final !== null) rows.push([esc(course.name), esc(subject.name), esc(st.name), esc('Año'), esc('Promedio final'), esc(this.fmtAvg(final))].join(','));
+        });
+      });
+    });
+
+    if (!rows.length) { this.toast('Todavía no hay notas ingresadas', 'warn'); return; }
+
+    const blob = new Blob([`﻿${header}\n${rows.join('\n')}`], { type:'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement('a'), {
+      href: url,
+      download: `Notas_Informe_${year}.csv`.replace(/[\\/:*?"<>|]/g,'_'),
+    });
+    a.click();
+    URL.revokeObjectURL(url);
+    this.toast('Informe exportado ✓ — lista para copiar y pegar en el sistema de tu colegio');
   }
 
   // ── Modal ────────────────────────────────────────────────────────────────────
